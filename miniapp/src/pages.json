@@ -1,0 +1,54 @@
+{
+  "pages": [
+    {"path": "pages/index/index", "style": {"navigationBarTitleText": "川农智伴", "navigationStyle": "custom", "enablePullDownRefresh": true}},
+    {"path": "pages/login/login", "style": {"navigationBarTitleText": "登录", "navigationStyle": "custom"}},
+    {"path": "pages/register/register", "style": {"navigationBarTitleText": "注册"}},
+    {"path": "pages/chat/chat", "style": {"navigationBarTitleText": "AI智能问答", "navigationStyle": "custom"}},
+    {"path": "pages/chat/session-list", "style": {"navigationBarTitleText": "会话历史"}},
+    {"path": "pages/profile/profile", "style": {"navigationBarTitleText": "个人中心", "navigationStyle": "custom"}},
+    {"path": "pages/knowledge/knowledge", "style": {"navigationBarTitleText": "农技知识库", "enablePullDownRefresh": true}}
+  ],
+  "subPackages": [
+    {
+      "root": "pages/diagnose/",
+      "pages": [{"path": "diagnose", "style": {"navigationBarTitleText": "病虫害诊断", "navigationStyle": "custom"}}]
+    },
+    {
+      "root": "pages/news/",
+      "pages": [
+        {"path": "news-list", "style": {"navigationBarTitleText": "农业新闻", "enablePullDownRefresh": true}},
+        {"path": "news-detail", "style": {"navigationBarTitleText": "新闻详情"}}
+      ]
+    },
+    {
+      "root": "pages/farm/",
+      "pages": [
+        {"path": "farm-calc", "style": {"navigationBarTitleText": "收益计算"}},
+        {"path": "farm-match", "style": {"navigationBarTitleText": "作物匹配"}}
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/index/index": {"network": "all", "packages": ["pages/diagnose", "pages/news"]},
+    "pages/chat/chat": {"network": "all", "packages": ["pages/diagnose"]}
+  },
+  "tabBar": {
+    "color": "#8B7355",
+    "selectedColor": "#2D7A4A",
+    "backgroundColor": "#FDF8F3",
+    "borderStyle": "white",
+    "list": [
+      {"pagePath": "pages/index/index", "text": "首页", "iconPath": "static/icons/home.png", "selectedIconPath": "static/icons/home-active.png"},
+      {"pagePath": "pages/chat/chat", "text": "AI问答", "iconPath": "static/icons/chat.png", "selectedIconPath": "static/icons/chat-active.png"},
+      {"pagePath": "pages/knowledge/knowledge", "text": "知识库", "iconPath": "static/icons/book.png", "selectedIconPath": "static/icons/book-active.png"},
+      {"pagePath": "pages/profile/profile", "text": "我的", "iconPath": "static/icons/user.png", "selectedIconPath": "static/icons/user-active.png"}
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#FDF8F3",
+    "navigationBarTitleText": "川农智伴",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FDF8F3"
+  }
+}

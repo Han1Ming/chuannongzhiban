@@ -1,0 +1,104 @@
+.knowledge-page.data-v-3d5fb6e9 {
+  background: #FDF8F3;
+  min-height: 100vh;
+}
+.knowledge-header.data-v-3d5fb6e9 {
+  padding: 56px 16px 12px;
+  text-align: center;
+}
+.header-title.data-v-3d5fb6e9 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1A4A2E;
+}
+
+/* 搜索框 */
+.search-box.data-v-3d5fb6e9 {
+  display: flex;
+  align-items: center;
+  margin: 0 16px 12px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 14px;
+  border: 1px solid #E8E0D4;
+  gap: 8px;
+}
+.search-icon.data-v-3d5fb6e9 {
+  font-size: 16px;
+}
+.search-input.data-v-3d5fb6e9 {
+  flex: 1;
+  font-size: 14px;
+  color: #2C1810;
+  height: 22px;
+}
+.search-input.data-v-3d5fb6e9::-moz-placeholder {
+  color: #C4A882;
+}
+.search-input.data-v-3d5fb6e9::placeholder {
+  color: #C4A882;
+}
+.search-clear.data-v-3d5fb6e9 {
+  font-size: 14px;
+  color: #C4A882;
+  padding: 4px;
+}
+.knowledge-scroll.data-v-3d5fb6e9 {
+  height: calc(100vh - 120px);
+  padding: 0 16px;
+}
+
+/* 分类标签 */
+.category-scroll.data-v-3d5fb6e9 {
+  white-space: nowrap;
+  padding-bottom: 12px;
+}
+.category-tag.data-v-3d5fb6e9 {
+  display: inline-flex;
+  padding: 8px 18px;
+  margin-right: 8px;
+  border-radius: 20px;
+  font-size: 13px;
+  background: #f5f0eb;
+  color: #8B7355;
+  transition: all 0.2s;
+}
+.category-tag.active.data-v-3d5fb6e9 {
+  background: #E8F5E9;
+  color: #2D7A4A;
+  font-weight: 600;
+}
+
+/* 搜索结果 */
+.search-results.data-v-3d5fb6e9 {
+  margin-bottom: 16px;
+}
+.result-header.data-v-3d5fb6e9 {
+  margin-bottom: 8px;
+}
+.result-title.data-v-3d5fb6e9 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A4A2E;
+}
+.result-item.data-v-3d5fb6e9 {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 8px;
+  border-left: 3px solid #2D7A4A;
+}
+.result-content.data-v-3d5fb6e9 {
+  font-size: 13px;
+  color: #2C1810;
+  line-height: 1.6;
+}
+.result-source.data-v-3d5fb6e9 {
+  font-size: 11px;
+  color: #C4A882;
+  margin-top: 6px;
+  display: block;
+}
+.bottom-safe.data-v-3d5fb6e9 {
+  height: 20px;
+}

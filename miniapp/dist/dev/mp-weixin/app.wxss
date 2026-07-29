@@ -1,0 +1,16 @@
+/* 全局样式 - 在 App.vue 中定义会影响所有页面 */
+page {
+  background-color: #FDF8F3;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  color: #2C1810;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 滚动条优化 */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+page{--status-bar-height:25px;--top-window-height:0px;--window-top:0px;--window-bottom:0px;--window-left:0px;--window-right:0px;--window-magin:0px}[data-c-h="true"]{display: none !important;}

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "会话历史",
+  "usingComponents": {
+    "nav-bar": "../../components/NavBar",
+    "loading-skeleton": "../../components/LoadingSkeleton",
+    "empty-state": "../../components/EmptyState"
+  }
+}

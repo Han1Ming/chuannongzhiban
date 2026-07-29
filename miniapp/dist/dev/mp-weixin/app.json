@@ -1,0 +1,89 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/register/register",
+    "pages/chat/chat",
+    "pages/chat/session-list",
+    "pages/profile/profile",
+    "pages/knowledge/knowledge"
+  ],
+  "subPackages": [
+    {
+      "root": "pages/diagnose/",
+      "pages": [
+        "diagnose"
+      ]
+    },
+    {
+      "root": "pages/news/",
+      "pages": [
+        "news-list",
+        "news-detail"
+      ]
+    },
+    {
+      "root": "pages/farm/",
+      "pages": [
+        "farm-calc",
+        "farm-match"
+      ]
+    }
+  ],
+  "tabBar": {
+    "color": "#8B7355",
+    "selectedColor": "#2D7A4A",
+    "backgroundColor": "#FDF8F3",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/icons/home.png",
+        "selectedIconPath": "static/icons/home-active.png"
+      },
+      {
+        "pagePath": "pages/chat/chat",
+        "text": "AI问答",
+        "iconPath": "static/icons/chat.png",
+        "selectedIconPath": "static/icons/chat-active.png"
+      },
+      {
+        "pagePath": "pages/knowledge/knowledge",
+        "text": "知识库",
+        "iconPath": "static/icons/book.png",
+        "selectedIconPath": "static/icons/book-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "static/icons/user.png",
+        "selectedIconPath": "static/icons/user-active.png"
+      }
+    ]
+  },
+  "preloadRule": {
+    "pages/index/index": {
+      "network": "all",
+      "packages": [
+        "pages/diagnose",
+        "pages/news"
+      ]
+    },
+    "pages/chat/chat": {
+      "network": "all",
+      "packages": [
+        "pages/diagnose"
+      ]
+    }
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于获取当地农事信息"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "usingComponents": {}
+}

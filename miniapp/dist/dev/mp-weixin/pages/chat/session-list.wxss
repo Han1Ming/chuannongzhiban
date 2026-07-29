@@ -1,0 +1,21 @@
+.session-list-page.data-v-19e99d6e { min-height: 100vh; background: #FDF8F3;
+}
+.list-scroll.data-v-19e99d6e { padding: 8px 16px; height: calc(100vh - 44px);
+}
+.session-item.data-v-19e99d6e {
+  display: flex; align-items: center; gap: 12px; padding: 16px;
+  background: #fff; border-radius: 14px; margin-bottom: 8px;
+  box-shadow: 0 1px 4px rgba(26, 74, 46, 0.04);
+}
+.session-item.data-v-19e99d6e:active { background: #F5EDE0;
+}
+.session-icon.data-v-19e99d6e { font-size: 24px;
+}
+.session-info.data-v-19e99d6e { flex: 1; min-width: 0;
+}
+.session-title.data-v-19e99d6e { font-size: 14px; font-weight: 600; color: #2C1810; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+}
+.session-time.data-v-19e99d6e { font-size: 12px; color: #C4A882; margin-top: 2px;
+}
+.session-arrow.data-v-19e99d6e { font-size: 20px; color: #C4A882;
+}

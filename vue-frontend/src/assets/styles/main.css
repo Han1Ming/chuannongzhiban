@@ -1,0 +1,151 @@
+/* Tailwind v4 必须在第一行 */
+@import "tailwindcss";
+
+/*
+ * Tailwind v4 的 CSS reset 会清除 box-sizing，
+ * Element Plus 的组件依赖标准盒模型，所以需要重置优先级
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --green-deep: #1A4A2E;
+  --green: #2D7A4A;
+  --green-light: #4CAF50;
+  --green-mist: #E8F5E9;
+  --earth: #C4A882;
+  --earth-light: #F5EDE0;
+  --gold: #E8B84B;
+  --cream: #FDF8F3;
+  --brown: #2C1810;
+  --brown-soft: #5C4033;
+  --brown-faint: #8B7355;
+  --error: #DC2626;
+  --success: #16A34A;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: 'Noto Sans SC', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--brown);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4, h5 {
+  font-family: 'Noto Serif SC', serif;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d0c8bc; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #b8b0a0; }
+
+/* Element Plus 主题色覆盖（使用更高优先级） */
+:root {
+  --el-color-primary: var(--green);
+  --el-color-primary-light-3: var(--green-light);
+  --el-color-primary-dark-2: var(--green-deep);
+  --el-border-radius-base: 10px;
+}
+.el-button--primary {
+  --el-button-bg-color: var(--green) !important;
+  --el-button-border-color: var(--green) !important;
+  --el-button-hover-bg-color: var(--green-deep) !important;
+  --el-button-hover-border-color: var(--green-deep) !important;
+  --el-button-active-bg-color: var(--green-deep) !important;
+}
+
+/* 修复 Element Plus 对话框在 Tailwind v4 下的样式问题 */
+.el-overlay { z-index: 2000 !important; }
+.el-input-number .el-input__wrapper { width: 100%; }
+
+/* 过渡动画 */
+.page-enter-active, .page-leave-active {
+  transition: all 0.35s cubic-bezier(.4,0,.2,1);
+}
+.page-enter-from { opacity: 0; transform: translateY(16px); }
+.page-leave-to { opacity: 0; transform: translateY(-12px); }
+.fade-enter-active, .fade-leave-active { transition: opacity 0.3s; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+
+/* ====== 全局动画增强 ====== */
+
+/* 滚动触发类 */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left { opacity: 0; transform: translateX(-40px); }
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right { opacity: 0; transform: translateX(40px); }
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.reveal-scale { opacity: 0; transform: scale(0.9); }
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* 浮动动画 */
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+.floating { animation: float 6s ease-in-out infinite; }
+.floating-delay { animation: float 6s ease-in-out 2s infinite; }
+.floating-delay-2 { animation: float 6s ease-in-out 4s infinite; }
+
+/* 呼吸发光 */
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 20px rgba(45, 122, 74, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(45, 122, 74, 0.6); }
+}
+.breathe { animation: breathe 3s ease-in-out infinite; }
+
+/* 骨架屏 shimmer */
+.skeleton {
+  background: linear-gradient(90deg, #f0ece4 25%, #f8f6f2 50%, #f0ece4 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* 脉冲光晕 */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(45, 122, 74, 0.4), 0 0 20px rgba(45, 122, 74, 0.2); }
+  50% { box-shadow: 0 0 16px rgba(45, 122, 74, 0.6), 0 0 36px rgba(45, 122, 74, 0.4); }
+}
+
+/* 图片悬浮缩放通用 */
+.img-zoom { overflow: hidden; }
+.img-zoom img { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+.img-zoom:hover img { transform: scale(1.1); }
+
+/* Ken Burns 缓慢缩放 */
+@keyframes ken-burns {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15); }
+}
+.ken-burns { animation: ken-burns 20s ease-in-out infinite alternate; }
+
+/* 打字机光标 */
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.typing-cursor::after { content: '▌'; animation: blink 1s infinite; }
+
+/* 无障碍降级 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

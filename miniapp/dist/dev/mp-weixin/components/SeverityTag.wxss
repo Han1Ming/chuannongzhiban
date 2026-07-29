@@ -1,0 +1,24 @@
+.severity-tag.data-v-840741fe {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+}
+.severity-mild.data-v-840741fe {
+  background: #D1FAE5;
+  color: #059669;
+}
+.severity-medium.data-v-840741fe {
+  background: #FEF3C7;
+  color: #D97706;
+}
+.severity-severe.data-v-840741fe {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+.severity-healthy.data-v-840741fe {
+  background: #E0F2FE;
+  color: #0284C7;
+}

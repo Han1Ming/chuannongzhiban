@@ -1,0 +1,68 @@
+.home-page.data-v-83a5a03c { background: #FDF8F3; min-height: 100vh;
+}
+.home-scroll.data-v-83a5a03c { height: calc(100vh - 50px); padding: 0 16px;
+}
+.weather-card.data-v-83a5a03c {
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border-radius: 16px; padding: 16px 20px; margin-bottom: 16px; margin-top: 8px;
+}
+.weather-left.data-v-83a5a03c { display: flex; flex-direction: column;
+}
+.weather-temp.data-v-83a5a03c { font-size: 32px; font-weight: 700; color: #1A4A2E; line-height: 1.2;
+}
+.weather-desc.data-v-83a5a03c { font-size: 13px; color: #5C4033; margin-top: 2px;
+}
+.weather-right.data-v-83a5a03c { display: flex; flex-direction: column; align-items: center;
+}
+.weather-emoji.data-v-83a5a03c { font-size: 32px;
+}
+.weather-tip.data-v-83a5a03c { font-size: 11px; color: #5C4033; margin-top: 4px;
+}
+.section.data-v-83a5a03c { margin-bottom: 20px;
+}
+.section-header.data-v-83a5a03c { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+}
+.section-title.data-v-83a5a03c { font-size: 16px; font-weight: 700; color: #1A4A2E;
+}
+.section-more.data-v-83a5a03c { font-size: 13px; color: #8B7355;
+}
+.quick-scroll.data-v-83a5a03c { white-space: nowrap; padding-bottom: 4px;
+}
+.quick-tag.data-v-83a5a03c {
+  display: inline-flex; padding: 8px 16px; background: #fff; border-radius: 20px;
+  margin-right: 8px; font-size: 13px; color: #5C4033;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04); border: 1px solid #E8E0D4;
+}
+.quick-tag.data-v-83a5a03c:active { background: #E8F5E9; border-color: #2D7A4A;
+}
+.banner-section.data-v-83a5a03c { margin-bottom: 20px;
+}
+.banner-swiper.data-v-83a5a03c { height: 120px; border-radius: 14px; overflow: hidden;
+}
+.banner-item.data-v-83a5a03c { display: flex; align-items: center; padding: 0 24px; height: 100%; gap: 16px;
+}
+.banner-icon.data-v-83a5a03c { font-size: 42px;
+}
+.banner-text.data-v-83a5a03c { display: flex; flex-direction: column;
+}
+.banner-title.data-v-83a5a03c { font-size: 16px; font-weight: 700; color: #1A4A2E;
+}
+.banner-desc.data-v-83a5a03c { font-size: 13px; color: #5C4033; margin-top: 2px;
+}
+.login-prompt-card.data-v-83a5a03c {
+  display: flex; align-items: center; gap: 8px; padding: 14px 16px;
+  background: #F8F6F2; border-radius: 12px; border: 1px solid #E8E0D4; margin-bottom: 8px;
+}
+.prompt-icon.data-v-83a5a03c { font-size: 18px;
+}
+.prompt-text.data-v-83a5a03c { flex: 1; font-size: 14px; color: #8B7355;
+}
+.prompt-arrow.data-v-83a5a03c { font-size: 14px; color: #2D7A4A; font-weight: 500;
+}
+.nav-msg.data-v-83a5a03c { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+}
+.msg-icon.data-v-83a5a03c { font-size: 22px;
+}
+.bottom-safe.data-v-83a5a03c { height: 20px;
+}

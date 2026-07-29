@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "川农智伴",
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "nav-bar": "../../components/NavBar",
+    "function-grid": "../../components/FunctionGrid",
+    "news-card": "../../components/NewsCard",
+    "loading-skeleton": "../../components/LoadingSkeleton"
+  }
+}

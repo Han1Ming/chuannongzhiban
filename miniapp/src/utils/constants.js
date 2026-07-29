@@ -1,0 +1,50 @@
+// 知识库分类（复用自 Vue Web 端）
+export const KNOWLEDGE_CATEGORIES = [
+  { label: '全部', value: '', icon: '📚' },
+  { label: '🌾 水稻', value: 'rice', icon: '🌾' },
+  { label: '🍊 柑橘', value: 'citrus', icon: '🍊' },
+  { label: '🍵 茶叶', value: 'tea', icon: '🍵' },
+  { label: '🐄 畜牧', value: 'livestock', icon: '🐄' }
+]
+
+// 地区（川南）
+export const REGIONS = ['宜宾', '泸州', '内江', '自贡', '乐山', '凉山', '昭通']
+
+// 农事类型
+export const FARMING_TYPES = ['种植', '养殖', '畜牧']
+
+// 季节
+export const SEASONS = ['春季', '夏季', '秋季', '冬季']
+
+// 首页快捷问题
+export const QUICK_QUESTIONS = [
+  '水稻稻瘟病怎么防治？',
+  '川南适合种什么柑橘？',
+  '一亩水稻成本多少？',
+  '夏季茶叶如何修剪？'
+]
+
+// 功能入口
+export const HOME_FUNCTIONS = [
+  { key: 'chat', icon: '🤖', label: 'AI问答', desc: '智能农业助手', bgColor: '#E8F5E9', page: '/pages/chat/chat' },
+  { key: 'diagnose', icon: '📷', label: '拍照诊断', desc: '识别病虫害', bgColor: '#FEF3C7', page: '/pages/diagnose/diagnose' },
+  { key: 'knowledge', icon: '🌾', label: '知识库', desc: '农技知识', bgColor: '#E0F2FE', page: '/pages/knowledge/knowledge' },
+  { key: 'news', icon: '📰', label: '新闻资讯', desc: '农业新闻', bgColor: '#FCE7F3', page: '/pages/news/news-list' },
+  { key: 'farm-calc', icon: '📊', label: '收益计算', desc: '成本收益', bgColor: '#EDE9FE', page: '/pages/farm/farm-calc' },
+  { key: 'farm-match', icon: '🌱', label: '作物匹配', desc: '智能推荐', bgColor: '#D1FAE5', page: '/pages/farm/farm-match' },
+  { key: 'voice', icon: '🎤', label: '语音助手', desc: '语音提问', bgColor: '#FEE2E2', page: '/pages/chat/chat' },
+  { key: 'more', icon: '📋', label: '更多', desc: '更多功能', bgColor: '#F3E8FF', page: '' }
+]
+
+// 新闻分类
+export const NEWS_CATEGORIES = [
+  { label: '全部', value: '' },
+  { label: '粮食', value: 'grain' },
+  { label: '政策', value: 'policy' },
+  { label: '科技', value: 'tech' },
+  { label: '果蔬', value: 'fruit' },
+  { label: '畜牧', value: 'livestock' }
+]
+
+// API 基础路径
+export const API_BASE = 'http://localhost:8000' // 部署时替换为实际域名

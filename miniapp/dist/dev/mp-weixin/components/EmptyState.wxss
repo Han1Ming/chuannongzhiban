@@ -1,0 +1,35 @@
+.empty-state.data-v-f262d0f3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+.empty-icon.data-v-f262d0f3 {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+.empty-title.data-v-f262d0f3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #8B7355;
+  margin-bottom: 6px;
+}
+.empty-desc.data-v-f262d0f3 {
+  font-size: 13px;
+  color: #C4A882;
+  text-align: center;
+  line-height: 1.5;
+}
+.empty-action.data-v-f262d0f3 {
+  margin-top: 20px;
+}
+.action-btn.data-v-f262d0f3 {
+  font-size: 14px;
+  color: #2D7A4A;
+  background: #E8F5E9;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-weight: 500;
+}

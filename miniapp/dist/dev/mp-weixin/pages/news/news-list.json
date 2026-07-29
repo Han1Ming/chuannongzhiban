@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "农业新闻",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "nav-bar": "../../components/NavBar",
+    "news-card": "../../components/NewsCard",
+    "loading-skeleton": "../../components/LoadingSkeleton",
+    "empty-state": "../../components/EmptyState"
+  }
+}

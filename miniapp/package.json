@@ -1,0 +1,23 @@
+{
+  "name": "chuannong-zhiban-miniapp",
+  "version": "1.0.0",
+  "description": "川农智伴 - 多模态AI农业助手微信小程序",
+  "private": true,
+  "scripts": {
+    "dev:mp-weixin": "npx --package @dcloudio/vite-plugin-uni uni -p mp-weixin",
+    "build:mp-weixin": "npx --package @dcloudio/vite-plugin-uni uni build -p mp-weixin"
+  },
+  "dependencies": {
+    "mp-html": "^2.5.2",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "@dcloudio/uni-app": "3.0.0-alpha-5020120260710001",
+    "@dcloudio/uni-cli-shared": "3.0.0-alpha-5020120260710001",
+    "@dcloudio/uni-mp-weixin": "3.0.0-alpha-5020120260710001",
+    "@dcloudio/vite-plugin-uni": "^3.0.0-alpha-5020120260710001",
+    "sass": "^1.77.0",
+    "sass-loader": "^14.0.0"
+  }
+}
