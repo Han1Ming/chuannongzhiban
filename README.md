@@ -377,8 +377,3 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 3. **API测试**: 使用 ApiFox 或 Postman 测试接口
 4. **日志**: 后端日志位于 `logs/` 目录，可用于排查问题
 
----
-
-## 六、许可证
-
-MIT License
