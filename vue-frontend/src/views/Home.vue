@@ -60,7 +60,7 @@
           <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium" style="background:var(--green-mist);color:var(--green)">
             <AgriIcons name="leaf" :size="14" color="#2D7A4A" /> 核心功能
           </div>
-          <h2 class="font-['Noto_Serif_SC'] text-4xl md:text-5xl font-bold mt-5" style="color:var(--green-deep)">六大AI能力</h2>
+          <h2 class="font-['Noto_Serif_SC'] text-4xl md:text-5xl font-bold mt-5" style="color:var(--green-deep)">七大AI能力</h2>
           <p class="mt-4 text-lg" style="color:var(--brown-faint)">覆盖农业生产全流程的智能化解决方案</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
@@ -88,6 +88,36 @@
       </div>
     </section>
 
+    <section ref="$kgSection" class="py-28 px-6 relative overflow-hidden" style="background:linear-gradient(180deg,#F9F5EF 0%,var(--cream) 100%)">
+      <div class="absolute inset-0 opacity-[0.04]" style="background-image:radial-gradient(circle,#0F766E 1px,transparent 1px);background-size:22px 22px"></div>
+      <div class="max-w-6xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div ref="$kgTitle" class="reveal">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium" style="background:#CCFBF1;color:#0F766E">
+            <AgriIcons name="graph" :size="14" color="#0F766E" /> 知识图谱
+          </div>
+          <h2 class="font-['Noto_Serif_SC'] text-3xl md:text-4xl font-bold mt-4" style="color:var(--green-deep)">把复杂的农技关系，画成一张清晰的图</h2>
+          <p class="mt-4 leading-relaxed" style="color:var(--brown-faint)">平台内置病害、症状、作物、药物与购买渠道五类实体，用关系图谱展示“什么病、什么症状、用什么药、哪里买”的完整链路。</p>
+          <div class="grid sm:grid-cols-2 gap-3 mt-6">
+            <div v-for="(point, pi) in kgPoints" :key="pi" class="kg-point p-4 rounded-2xl bg-white/80 border border-[#e8e0d4] flex items-start gap-3">
+              <span class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" :style="{background:point.bg, color:point.color}">
+                <AgriIcons :name="point.icon" :size="16" :color="point.color" />
+              </span>
+              <div>
+                <h3 class="text-sm font-bold" style="color:var(--brown)">{{ point.title }}</h3>
+                <p class="text-xs mt-1 leading-relaxed" style="color:var(--brown-faint)">{{ point.desc }}</p>
+              </div>
+            </div>
+          </div>
+          <router-link to="/knowledge-graph" class="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-xl text-white font-semibold no-underline transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl" style="background:linear-gradient(135deg,#0F766E,#2D7A4A);box-shadow:0 8px 24px rgba(15,118,110,0.2)">
+            <AgriIcons name="graph" :size="17" color="white" /> 进入知识图谱
+          </router-link>
+        </div>
+        <div ref="$kgMedia" class="relative reveal">
+          <div class="absolute -inset-3 rounded-3xl opacity-20 blur-2xl" style="background:linear-gradient(135deg,#0F766E,#34D399)"></div>
+          <img src="/images/knowledge-graph.png" alt="川农智伴知识图谱界面" class="relative w-full h-auto rounded-2xl border border-[#e8e0d4] shadow-2xl" loading="lazy" />
+        </div>
+      </div>
+    </section>
     <section class="py-28 px-6 bg-white relative overflow-hidden">
       <div class="absolute top-0 right-0 w-96 h-96 rounded-full bg-[#E8F5E9]/30 blur-[150px] -translate-y-1/2 translate-x-1/2"></div>
       <div class="max-w-6xl mx-auto relative z-10">
@@ -210,7 +240,15 @@ const features = [
   { icon: 'camera', title: '图片诊断', desc: '上传作物图片，AI自动识别病虫害，并提供专业防治建议', bg: '#DBEAFE', color: '#3B82F6' },
   { icon: 'sprout', title: '种植匹配', desc: '根据地区、季节和农业类型，智能推荐最适合的种植方案', bg: '#FCE7F3', color: '#EC4899' },
   { icon: 'chart', title: '收益计算', desc: '科学计算种植成本与收益，辅助决策，实现精准农业管理', bg: '#E0E7FF', color: '#6366F1' },
+  { icon: 'graph', title: '知识图谱', desc: '将病害、症状、用药与购买渠道的关系可视化，一次点击看清完整防治链路', bg: '#F0FDF4', color: '#0F766E' },
   { icon: 'news', title: '农业资讯', desc: '实时获取最新农业政策、市场行情和行业动态，把握发展先机', bg: '#D1FAE5', color: '#10B981' }
+]
+
+const kgPoints = [
+  { icon: 'graph', title: '关系可视化', desc: '病害、症状、用药与购买渠道关系一目了然', bg: '#CCFBF1', color: '#0F766E' },
+  { icon: 'camera', title: '节点详情', desc: '点击任意节点查看描述、用法与关联实体', bg: '#DBEAFE', color: '#2563EB' },
+  { icon: 'sprout', title: '智能搜索', desc: '输入作物或症状关键词快速定位图谱节点', bg: '#D1FAE5', color: '#059669' },
+  { icon: 'chart', title: '路径查询', desc: '查看任意两个实体之间的完整关系路径', bg: '#FEF3C7', color: '#D97706' }
 ]
 
 const scenes = [
@@ -247,6 +285,7 @@ const $stats = ref(null); const $featureTitle = ref(null)
 const $featureCards = ref([]); const $featureCards2 = ref([])
 const $sceneTitle = ref(null); const $sceneCards = ref([])
 const $stepTitle = ref(null); const $stepCards = ref([])
+const $kgTitle = ref(null); const $kgMedia = ref(null)
 
 function animateNumbers(duration = 2500) {
   if (statsAnimated) return
@@ -283,6 +322,8 @@ onMounted(() => {
   $sceneCards.value.forEach(el => el && observer.observe(el))
   if ($stepTitle.value) observer.observe($stepTitle.value)
   $stepCards.value.forEach(el => el && observer.observe(el))
+  if ($kgTitle.value) observer.observe($kgTitle.value)
+  if ($kgMedia.value) observer.observe($kgMedia.value)
 })
 onUnmounted(() => { if (heroTimer) clearInterval(heroTimer); if (observer) observer.disconnect() })
 </script>
@@ -314,4 +355,12 @@ onUnmounted(() => { if (heroTimer) clearInterval(heroTimer); if (observer) obser
 .cta-btn-cta { position: relative; }
 .cta-btn-cta::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent); transition: left 0.6s ease; z-index: 0; }
 .cta-btn-cta:hover::before { left: 100%; }
+
+.kg-point {
+  transition: all 0.3s ease;
+}
+.kg-point:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(15, 118, 110, 0.1);
+}
 </style>

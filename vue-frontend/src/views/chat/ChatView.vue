@@ -670,6 +670,15 @@ async function send(q) {
 
   try {
     const res = await chatStream(msg, sessionId, abort.signal);
+    if (!res.ok) {
+      let errMsg = `请求失败 (${res.status})`;
+      try {
+        const data = await res.json();
+        errMsg = data?.msg || data?.detail || errMsg;
+      } catch { /* 忽略非 JSON 响应 */ }
+      throw new Error(errMsg);
+    }
+    if (!res.body) throw new Error('响应为空');
     const reader = res.body.getReader();
     const dec = new TextDecoder();
     let buf = "",

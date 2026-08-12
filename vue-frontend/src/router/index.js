@@ -10,6 +10,7 @@ const routes = [
     { path: 'news', name: 'News', component: () => import('@/views/news/NewsList.vue'), meta: { title: '农业新闻' } },
     { path: 'news/:id', name: 'NewsDetail', component: () => import('@/views/news/NewsDetail.vue'), meta: { title: '新闻详情' } },
     { path: 'knowledge', name: 'Knowledge', component: () => import('@/views/knowledge/KnowledgeView.vue'), meta: { title: '农技知识库', auth: true } },
+    { path: 'knowledge-graph', name: 'KnowledgeGraph', component: () => import('@/views/knowledge-graph/KnowledgeGraph.vue'), meta: { title: '知识图谱' } },
     { path: 'farm/calculate', name: 'FarmCalc', component: () => import('@/views/farm/FarmCalc.vue'), meta: { title: '收益计算', auth: true } },
     { path: 'farm/match', name: 'FarmMatch', component: () => import('@/views/farm/FarmMatch.vue'), meta: { title: '智能匹配', auth: true } },
     { path: 'profile', name: 'Profile', component: () => import('@/views/user/Profile.vue'), meta: { title: '个人中心', auth: true } }

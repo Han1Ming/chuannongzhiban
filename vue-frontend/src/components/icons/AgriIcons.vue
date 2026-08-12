@@ -76,6 +76,15 @@
     <path d="M17 5l-6 6" :stroke="color" stroke-width="1.5" stroke-linecap="round"/>
   </svg>
 
+  <!-- 知识图谱 - 节点网络 -->
+  <svg v-else-if="name==='graph'" :width="size" :height="size" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="6" cy="6" r="2.4" :fill="color" :stroke="color"/>
+    <circle cx="18" cy="5" r="2.4" :fill="color" :stroke="color"/>
+    <circle cx="17" cy="17" r="2.4" :fill="color" :stroke="color"/>
+    <circle cx="6" cy="19" r="2.4" :fill="color" :stroke="color"/>
+    <path d="M8.2 7.3l7.5-1.9M18.2 7.2l-1.6 7.7M14.8 15.9l-8.4 1.8M8.2 8.3l-1.7 8.6" :stroke="color" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+  </svg>
+
   <!-- 默认 Fallback -->
   <svg v-else :width="size" :height="size" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="12" cy="12" r="10" :stroke="color" stroke-width="1.5"/>

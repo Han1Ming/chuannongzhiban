@@ -26,6 +26,7 @@
           <router-link to="/chat" class="nav-link" active-class="nav-active">智能问答</router-link>
           <router-link to="/news" class="nav-link" active-class="nav-active">农业新闻</router-link>
           <router-link to="/knowledge" class="nav-link" active-class="nav-active">知识库</router-link>
+          <router-link to="/knowledge-graph" class="nav-link" active-class="nav-active">🌾 知识图谱</router-link>
           <router-link to="/farm/calculate" class="nav-link" active-class="nav-active">农事工具</router-link>
           <router-link v-if="auth.isAdmin" to="/admin" class="nav-link" active-class="nav-active">管理后台</router-link>
         </nav>
@@ -53,6 +54,7 @@
                     <router-link to="/chat" class="menu-item" @click="menuOpen = false" active-class="!text-[var(--green)] !bg-[#E8F5E9]">💬 智能问答</router-link>
                     <router-link to="/news" class="menu-item" @click="menuOpen = false" active-class="!text-[var(--green)] !bg-[#E8F5E9]">📰 农业新闻</router-link>
                     <router-link to="/knowledge" class="menu-item" @click="menuOpen = false" active-class="!text-[var(--green)] !bg-[#E8F5E9]">📚 知识库</router-link>
+                    <router-link to="/knowledge-graph" class="menu-item" @click="menuOpen = false" active-class="!text-[var(--green)] !bg-[#E8F5E9]">🌾 知识图谱</router-link>
                     <router-link to="/farm/calculate" class="menu-item" @click="menuOpen = false" active-class="!text-[var(--green)] !bg-[#E8F5E9]">🧮 收益计算</router-link>
                     <router-link to="/farm/match" class="menu-item" @click="menuOpen = false" active-class="!text-[var(--green)] !bg-[#E8F5E9]">🌱 智能匹配</router-link>
                     <router-link v-if="auth.isAdmin" to="/admin" class="menu-item" @click="menuOpen = false" active-class="!text-[var(--green)] !bg-[#E8F5E9]">⚙️ 管理后台</router-link>
@@ -123,6 +125,7 @@
               <router-link to="/chat" class="footer-link">智能问答</router-link>
               <router-link to="/news" class="footer-link">农业新闻</router-link>
               <router-link to="/knowledge" class="footer-link">农技知识库</router-link>
+              <router-link to="/knowledge-graph" class="footer-link">知识图谱</router-link>
               <router-link to="/farm/calculate" class="footer-link">收益计算</router-link>
               <router-link to="/farm/match" class="footer-link">智能种植匹配</router-link>
             </div>

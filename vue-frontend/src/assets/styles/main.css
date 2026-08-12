@@ -66,6 +66,17 @@ h1, h2, h3, h4, h5 {
 .el-overlay { z-index: 2000 !important; }
 .el-input-number .el-input__wrapper { width: 100%; }
 
+/* AI 回答中的知识图谱跳转链接 */
+.markdown-body a {
+  color: var(--green);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.markdown-body a:hover {
+  color: var(--green-deep);
+}
+
 /* 过渡动画 */
 .page-enter-active, .page-leave-active {
   transition: all 0.35s cubic-bezier(.4,0,.2,1);
