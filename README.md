@@ -2,7 +2,7 @@
 
 ## 项目简介
 
-川农智伴是一个基于多模态AI的农业智能体系统，提供智能问答、知识管理、农业数据分析等功能。系统包含后端API服务和前端Web界面。
+川农智伴是一个基于多模态AI的农业智能体系统，提供智能问答、知识图谱、农技知识库、农业数据分析等功能。系统包含后端API服务和前端Web界面；当大模型额度或网络异常时，智能问答会自动切换到知识图谱/本地知识库离线回答。
 
 ## 技术栈
 
@@ -12,6 +12,7 @@
 - **数据库**: MySQL + Tortoise-ORM
 - **AI模型**: 通义千问 (Qwen)
 - **向量数据库**: ChromaDB
+- **知识图谱**: 内置演示图谱（可选 Neo4j）
 - **语言**: Python 3.12
 
 ### 前端
@@ -96,7 +97,19 @@ mysql -u root -p
 CREATE DATABASE chuanban_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-#### 3.2 修改配置文件
+#### 3.2 初始化数据库表
+
+按顺序执行 `后端sql语言` 目录下的脚本：
+
+```bash
+mysql -u root -p chuanban_db < 后端sql语言/console.sql
+mysql -u root -p chuanban_db < 后端sql语言/console_1.sql
+mysql -u root -p chuanban_db < 后端sql语言/console_2.sql
+```
+
+其中 `console_2.sql` 会把旧版 `chat_logs` 数据迁移到当前后端使用的 `chat_sessions` 和 `chat_messages` 表。
+
+#### 3.3 修改配置文件
 
 编辑 `backend/config/db.yml` 文件：
 
@@ -113,12 +126,12 @@ pool_size: 5
 max_overflow: 10
 ```
 
-#### 3.3 AI模型配置
+#### 3.4 AI模型配置
 
 编辑 `backend/config/rag.yml` 文件：
 
 ```yaml
-chat_model_name: qwen-plus-2025-07-28 # 对话模型名称
+chat_model_name: qwen-plus # 对话模型名称（按 DashScope 控制台实际可用模型填写）
 embedding_model_name: text-embedding-v4 # 嵌入模型名称
 api_key: "你的API_KEY" # 阿里云API密钥
 ```
@@ -150,17 +163,19 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 | 接口           | 方法 | 说明                               |
 | -------------- | ---- | ---------------------------------- |
-| `/chat`        | POST | 非流式智能问答，等待完整回复后返回 |
-| `/chat/stream` | POST | 流式智能问答，实时返回回复内容     |
+| `/chat/stream` | POST | 流式智能问答，实时返回 NDJSON 增量内容 |
+| `/chat/sync`   | POST | 同步智能问答，等待完整回复后返回   |
+| `/chat/sessions` | GET | 获取当前用户会话列表 |
+| `/chat/sessions/{id}/messages` | GET | 获取指定会话消息 |
 
 **请求示例**（ApiFox）：
 
 ```json
-POST http://localhost:8000/chat
+POST http://localhost:8000/chat/sync
 Content-Type: application/json
 
 {
-    "query": "扫地机器人如何保养"
+    "query": "水稻稻瘟病怎么防治？"
 }
 ```
 
@@ -168,9 +183,11 @@ Content-Type: application/json
 
 ```json
 {
-  "response": "根据知识库内容，扫地机器人保养建议如下：..."
+  "response": "水稻稻瘟病可选用三环唑、稻瘟灵等药剂，发病初期喷施，间隔7-10天再喷一次。"
 }
 ```
+
+> **兜底说明**：当 DashScope 模型额度耗尽或网络异常时，`/chat/stream`、`/chat/sync` 和 WebSocket 会自动返回知识图谱/本地 RAG 检索结果，并在回复中标注“大模型服务当前不可用”，不会让问答接口静默中断。
 
 #### 6.2 其他接口
 
@@ -179,10 +196,35 @@ Content-Type: application/json
 | 用户管理 | `/api/user`      | 注册、登录、个人信息 |
 | 聊天管理 | `/api/chat`      | 会话管理、消息记录   |
 | 知识库   | `/api/knowledge` | 知识文档管理         |
+| 知识图谱 | `/api/knowledge-graph` | 图谱概览、搜索、节点、路径 |
 | 农业数据 | `/api/farm`      | 农业记录、数据分析   |
 | 管理员   | `/api/admin`     | 用户管理、系统配置   |
 | 新闻资讯 | `/api/news`      | 新闻列表、详情       |
 | 验证码   | `/api/captcha`   | 获取验证码           |
+
+#### 6.3 知识图谱接口
+
+| 接口 | 方法 | 说明 |
+| --- | --- | --- |
+| `/api/knowledge-graph/overview` | GET | 获取全量图谱节点和关系 |
+| `/api/knowledge-graph/search?keyword=关键词` | GET | 按名称/描述搜索节点 |
+| `/api/knowledge-graph/node/{name}` | GET | 获取节点详情及相邻关系 |
+| `/api/knowledge-graph/path` | POST | 查询两个实体间最短路径，入参 `from`/`to` |
+| `/api/knowledge-graph/recommend` | GET | 获取推荐作物节点 |
+| `/api/knowledge-graph/cypher` | POST | 执行只读 Cypher（仅 Neo4j 模式支持） |
+
+> **默认模式**：未配置 Neo4j 时使用内置 `backend/knowledge_graph/seed_data.json`，无需安装额外数据库即可演示图谱搜索、节点详情和路径查询。
+
+#### 6.4 知识图谱功能
+
+知识图谱页面位于 `/knowledge-graph`，提供以下能力：
+
+- 病害、症状、作物/畜种、药物、购买渠道五类实体可视化
+- 关键词搜索、节点详情、相邻关系、最短路径查询
+- 图谱节点可拖拽、缩放，命中高亮展示用药与购买链路
+- 问答模型不可用时可作为离线兜底知识来源
+
+![川农智伴知识图谱](kg_shot_full.png)
 
 ### 7. 后端项目结构
 
@@ -199,9 +241,10 @@ backend/
 │   ├── admin.py        # 管理员接口
 │   └── ...
 ├── models/             # 数据库模型
-├── services/           # 业务逻辑
+├── services/           # 业务逻辑（含 fallback_service.py 离线兜底）
 ├── schemas/            # 数据校验
 ├── rag/                # RAG检索
+├── knowledge_graph/    # 知识图谱（内置 JSON / 可选 Neo4j）
 ├── app_agent/          # 智能客服Agent（ApiFox调用入口）
 │   ├── api.py          # FastAPI接口文件
 │   ├── agent/          # Agent实现
@@ -281,15 +324,17 @@ npm run build
 vue-frontend/
 ├── src/
 │   ├── components/     # 公共组件
+│   │   ├── knowledge-graph/  # 知识图谱画布、节点详情组件
 │   ├── views/          # 页面视图
 │   │   ├── LoginView.vue    # 登录页
 │   │   ├── ChatView.vue     # 聊天页
+│   │   ├── knowledge-graph/ # 知识图谱页
 │   │   ├── Dashboard.vue    # 仪表盘
 │   │   └── ...
 │   ├── router/         # 路由配置
 │   ├── stores/         # Pinia状态管理
 │   ├── utils/          # 工具函数
-│   ├── api/            # API接口封装
+│   ├── api/            # API接口封装（含 knowledgeGraph.js）
 │   └── main.js         # 入口文件
 ├── public/             # 静态资源
 ├── index.html          # HTML模板
@@ -348,8 +393,12 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 **检查项**:
 
 - 后端服务是否正常启动
-- 请求地址是否正确（`http://localhost:8000/chat`）
+- 请求地址是否正确（同步接口为 `http://localhost:8000/chat/sync`）
 - 请求格式是否正确（JSON格式，包含 `query` 字段）
+
+### 6. 问答返回“大模型服务当前不可用”
+
+该提示表示 DashScope 模型额度耗尽、API Key 无效或网络异常。此时问答会自动使用知识图谱和本地 RAG 离线回答；如需恢复完整大模型回答，请检查 `backend/config/rag.yml` 中的 `api_key` 和账户额度。
 
 ---
 
@@ -363,6 +412,11 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 | `config/rag.yml`     | AI模型和API密钥配置 |
 | `config/prompts.yml` | 提示词文件路径配置  |
 | `config/chroma.yml`  | 向量数据库配置      |
+| `config/vision.yml`  | 图片诊断模型配置    |
+| `config/audio.yml`   | 语音识别配置        |
+| `config/tts.yml`     | 语音合成配置        |
+
+知识图谱默认使用内置 JSON 数据；如需切换 Neo4j，可设置环境变量 `NEO4J_URI`、`NEO4J_USER`、`NEO4J_PASSWORD`。
 
 ### 前端配置
 

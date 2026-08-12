@@ -1,3 +1,8 @@
+-- ============================================================
+-- 聊天会话/消息迁移脚本
+-- 注意：请先执行 console.sql 和 console_1.sql，再执行本脚本
+-- 完成旧 chat_logs 数据到 chat_sessions / chat_messages 的迁移
+-- ============================================================
 DROP TABLE IF EXISTS `chat_messages`;
 DROP TABLE IF EXISTS `chat_sessions`;
 DROP TABLE IF EXISTS `chat_logs`;

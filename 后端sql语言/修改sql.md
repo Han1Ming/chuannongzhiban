@@ -116,3 +116,25 @@ CREATE TABLE IF NOT EXISTS `agricultural_news` (
 | 问题 | 说明 |
 |:----|------|
 | 问题 6（chat_sessions.source_log_id） | 该字段仅用于迁移映射，ORM 未定义但不会导致错误，按指示保留 |
+
+---
+
+## 📅 2026-08-12 更新
+
+### console.sql 新增聊天会话/消息表
+
+当前后端实际使用 `chat_sessions` + `chat_messages` 两个新表，旧 `chat_logs` 仅保留用于兼容和迁移。`console.sql` 已补充：
+
+- `chat_sessions`：聊天会话表
+- `chat_messages`：聊天消息表
+- 全新安装执行顺序：`console.sql` → `console_1.sql` → `console_2.sql`
+
+### 知识图谱说明
+
+知识图谱使用内置 `backend/knowledge_graph/seed_data.json` 演示数据，默认无需新增数据库表，也不需要安装 Neo4j。若配置了 `NEO4J_URI/NEO4J_USER/NEO4J_PASSWORD` 环境变量且 Neo4j 可用，后端会自动切换为 Neo4j 存储。
+
+### 后端行为调整（同步更新 README）
+
+- 智能问答流式/同步/WebSocket 增加离线兜底：模型额度或网络异常时返回知识图谱/RAG 结果和明确提示
+- 新闻 `latest/list` 接口改为公开访问
+- 管理端知识库分页接口修复（`KnowledgeItem` 无 `updated_at`，改为返回 `created_at`）

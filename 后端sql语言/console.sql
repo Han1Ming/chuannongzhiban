@@ -71,6 +71,40 @@ CREATE TABLE `chat_logs` (
   KEY `idx_created_at` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='智能问答交互日志表';
 
+-- =============================================
+-- 4.1 聊天会话表（当前后端实际使用，对应 models/chat_session.py）
+-- =============================================
+DROP TABLE IF EXISTS `chat_sessions`;
+CREATE TABLE `chat_sessions` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '会话ID',
+  `user_id` INT NOT NULL COMMENT '用户ID',
+  `title` VARCHAR(255) DEFAULT NULL COMMENT '会话标题',
+  `is_deleted` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '软删除标记',
+  `source_log_id` INT UNIQUE COMMENT '原chat_logs.id（用于迁移映射）',
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_deleted` (`user_id`, `is_deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='聊天会话表';
+
+-- =============================================
+-- 4.2 聊天消息表（当前后端实际使用，对应 models/chat_message.py）
+-- =============================================
+DROP TABLE IF EXISTS `chat_messages`;
+CREATE TABLE `chat_messages` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '消息ID',
+  `session_id` INT NOT NULL COMMENT '所属会话ID',
+  `role` VARCHAR(10) NOT NULL COMMENT '角色: user/assistant',
+  `content` TEXT NOT NULL COMMENT '消息内容',
+  `intent` VARCHAR(50) DEFAULT NULL COMMENT '意图分类（仅助手）',
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_session_created` (`session_id`, `created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='聊天消息表';
+
+-- 提示：全新安装请按顺序执行 console.sql -> console_1.sql -> console_2.sql，
+-- console_2.sql 会把旧 chat_logs 数据迁移到 chat_sessions / chat_messages。
+
 -- DROP TABLE IF EXISTS `chat_logs`;
 CREATE TABLE `recommendations` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
