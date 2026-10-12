@@ -1,0 +1,1 @@
+<view class="{{['confidence-tag', 'data-v-a1fa26e5', d]}}" style="{{'background:' + e + ';' + ('border-color:' + f)}}"><text class="dot data-v-a1fa26e5" style="{{'background:' + a}}"/><text class="tag-text data-v-a1fa26e5" style="{{'color:' + c}}">{{b}}</text></view>

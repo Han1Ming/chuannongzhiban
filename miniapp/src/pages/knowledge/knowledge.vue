@@ -30,11 +30,24 @@
       <view class="search-results" v-if="searchResults.length">
         <view class="result-header">
           <text class="result-title">🔍 搜索结果</text>
+          <!-- 检索通道如实标注：关键词降级时不能让人误以为是向量检索结果 -->
+          <text class="result-mode" :class="{ 'result-mode-warn': searchChannel !== 'vector' }">
+            {{ searchChannel === 'vector' ? '向量检索' : '关键词检索（已降级）' }}
+          </text>
         </view>
         <view class="result-item" v-for="(r, i) in searchResults" :key="i">
           <text class="result-content">{{ r.content }}</text>
-          <text class="result-source" v-if="r.metadata?.source">来源: {{ r.metadata.source }}</text>
+          <text class="result-source" v-if="r.source || r.similarity != null">
+            <text v-if="r.source">来源: {{ String(r.source).split(/[\\/]/).pop() }}</text>
+            <text v-if="r.similarity != null"> 匹配度 {{ (r.similarity * 100).toFixed(0) }}%</text>
+          </text>
         </view>
+      </view>
+
+      <!-- 搜过但无结果：明确提示，而不是静默显示成"没有知识" -->
+      <view class="search-empty" v-else-if="searched && !loading">
+        <text class="search-empty-title">没有检索到匹配片段</text>
+        <text class="search-empty-desc">换用更具体的关键词（病害名、作物名）再试</text>
       </view>
 
       <!-- 知识列表 -->
@@ -68,6 +81,10 @@ const activeCategory = ref('')
 const knowledgeList = ref([])
 const searchQuery = ref('')
 const searchResults = ref([])
+// searched：区分「还没搜过」与「搜过但没命中」，避免无结果时静默显示成知识库为空
+const searched = ref(false)
+// 检索通道：vector 正常 / keyword 表示嵌入服务不可用已降级
+const searchChannel = ref('vector')
 const loading = ref(true)
 const refreshing = ref(false)
 
@@ -97,10 +114,15 @@ async function doSearch() {
   if (!searchQuery.value.trim()) return
   searchResults.value = []
   loading.value = true
+  searched.value = true
   try {
-    const results = await searchKnowledge(searchQuery.value, 5)
-    searchResults.value = Array.isArray(results) ? results : []
+    // 接口返回 { items, total, source_meta }；items[].retrieval 标明本条的检索通道
+    const r = await searchKnowledge(searchQuery.value, 5)
+    searchResults.value = r?.items || []
+    searchChannel.value = r?.source_meta?.retrieval_mode || 'vector'
   } catch (e) {
+    searchResults.value = []
+    searchChannel.value = 'unknown'
     uni.showToast({ title: '搜索失败', icon: 'none' })
   } finally {
     loading.value = false
@@ -110,6 +132,7 @@ async function doSearch() {
 function clearSearch() {
   searchQuery.value = ''
   searchResults.value = []
+  searched.value = false
 }
 
 async function onRefresh() {
@@ -205,11 +228,45 @@ function showDetail(item) {
 }
 .result-header {
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .result-title {
   font-size: 14px;
   font-weight: 600;
   color: #1A4A2E;
+}
+/* 检索通道标签：降级时用琥珀色提示，避免误认为是向量检索结果 */
+.result-mode {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #E8F5E9;
+  color: #2D7A4A;
+}
+.result-mode-warn {
+  background: #FEF3C7;
+  color: #B45309;
+}
+/* 搜过但无结果的提示 */
+.search-empty {
+  padding: 28px 16px;
+  text-align: center;
+  background: #FAF8F4;
+  border-radius: 14px;
+  margin-bottom: 16px;
+}
+.search-empty-title {
+  display: block;
+  font-size: 14px;
+  color: #5C4033;
+  margin-bottom: 6px;
+}
+.search-empty-desc {
+  display: block;
+  font-size: 12px;
+  color: #C4A882;
 }
 .result-item {
   background: #fff;

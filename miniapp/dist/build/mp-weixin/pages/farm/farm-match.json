@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "作物匹配",
+  "usingComponents": {
+    "nav-bar": "../../components/NavBar"
+  }
+}

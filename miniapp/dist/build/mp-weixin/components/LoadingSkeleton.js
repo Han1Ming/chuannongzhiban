@@ -1,0 +1,1 @@
+"use strict";const e=require("../common/vendor.js"),t={__name:"LoadingSkeleton",props:{count:{type:Number,default:3},type:{type:String,default:"card"}},setup:t=>(o,p)=>({a:e.f(t.count,(o,p,n)=>e.e((t.type,{}),(t.type,{}),{a:o})),b:"card"===t.type,c:"text-only"!==t.type})},o=e._export_sfc(t,[["__scopeId","data-v-dee06746"]]);wx.createComponent(o);

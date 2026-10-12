@@ -1,0 +1,1 @@
+"use strict";const e=require("./request.js");exports.getKnowledgeList=function(t=""){const r={};return t&&(r.category=t),e.get("/api/knowledge/list",r)},exports.searchKnowledge=function(t,r=3){return e.get("/api/knowledge/search",{query:t,top_k:r})};

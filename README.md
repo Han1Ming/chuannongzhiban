@@ -431,3 +431,73 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 3. **API测试**: 使用 ApiFox 或 Postman 测试接口
 4. **日志**: 后端日志位于 `logs/` 目录，可用于排查问题
 
+---
+
+## 六、AI 能力升级说明（五阶段改造）
+
+本次升级对应《AI+农业——修改思路.md》中的五个技术缺陷，改造**向上兼容**：
+所有新增字段均为可选项，旧客户端只读 `response` / `session_id` / `chunk` 时行为完全不变。
+
+### 6.1 新增能力一览
+
+| 阶段 | 缺陷 | 落地能力 | 主要代码位置 |
+|:---:|---|---|---|
+| 1 | 输出无语构化处方 | **DTM 决策翻译层**：把自然语言建议翻译为「诊断—措施—成本—风险—依据」结构化处方，含字段完整性校验、地区/季节/作物/天气适配性校验、药剂与人工成本核算 | `services/dtm_service.py`、`config/dtm.yml`、`prompts/prescription_prompt.txt` |
+| 2 | 可解释性不足 | **推理链 + 来源溯源 + 图谱路径**：`reasoning_chain` / `sources` / `graph_paths` 三件套，来源带类型、编号、标题、匹配分数与原文片段 | `services/telemetry.py`、`services/explain_service.py` |
+| 3 | 置信度未分级 | **三级置信度校准**：> 0.85 直接出处方；0.70~0.85 出处方并追加风险提示；< 0.70 **不处方**，返回补充信息引导与农技站提示 | `services/confidence_service.py`、`config/confidence.yml` |
+| 4 | 纯向量检索 | **GraphRAG 双通道**：向量语义召回 + 知识图谱多跳路径推理；按问句意图路由关系（用药/症状/农事操作/诱发条件/购买渠道/并发）；图谱未命中自动回退纯向量 | `rag/hybrid_retriever.py`、`knowledge_graph/` |
+| 5 | 单体 Agent 工具过多 | **多智能体协作**：诊断/知识/决策/报告四类 Agent，Supervisor 负责意图分类与路由，LangGraph 状态图编排，工具按 Agent 分组 | `agent/multi_agent/` |
+
+### 6.2 意图与链路
+
+| 意图 | 触发示例 | 执行链路 |
+|---|---|---|
+| `fact` | 什么是智慧农业 | knowledge |
+| `diagnose` | 柑橘叶片出现黄色晕圈是什么病 / 上传图片 | diagnose → knowledge → decision |
+| `prescription` | 水稻稻瘟病怎么防治 | knowledge → decision |
+| `report` | 生成我 6 月的农事报告 | diagnose → knowledge → decision → report |
+
+### 6.3 新增环境变量与配置
+
+| 配置 | 默认值 | 说明 |
+|---|---|---|
+| `AGENT_MODE` | `supervisor` | `supervisor` 走多智能体；`legacy` 一键回退单体 ReAct Agent |
+| `NEO4J_URI` / `NEO4J_USER` / `NEO4J_PASSWORD` | 未设置 | 设置且 Neo4j 可达时自动切换图存储；否则使用内置 JSON 图谱（117 节点 / 209 关系） |
+| `config/dtm.yml` | — | 药剂价目表、人工成本、风险阈值、地区适配规则。**单价为示例参考价，请按本地农资挂牌价覆盖** |
+| `config/confidence.yml` | — | 置信度阈值与低置信度引导语 |
+
+### 6.4 数据库迁移（必读）
+
+本次升级新增了列与表，**需先执行迁移**：
+
+```bash
+cd backend
+python -m migrations.run_migration status   # 查看状态
+python -m migrations.run_migration up       # 应用迁移（幂等，可重复执行）
+python -m migrations.run_migration down 0002  # 回滚指定版本
+```
+
+详见 `backend/migrations/README.md`。所有新增列可空或有默认值，**迁移前旧代码仍可正常运行**。
+
+### 6.5 自测
+
+```bash
+cd backend
+python test/test_ai_upgrade.py     # 单元/集成自测（模块、图谱、双通道、DTM、置信度、装配、链路、落库）
+python test/test_api_smoke.py      # HTTP 端到端自测（真实 ASGI 应用 + 真实 MySQL）
+
+cd ../vue-frontend && npm run build
+cd ../miniapp && npm run build:mp-weixin
+```
+
+### 6.6 降级策略（任一外部依赖失效都不影响主流程）
+
+| 失效项 | 表现 | 降级行为 |
+|---|---|---|
+| 大模型额度/网络 | 模型调用抛错 | 决策 Agent 改用**图谱规则处方**（`generated_by=rule_from_graph`）；仍输出处方、成本与依据 |
+| 向量嵌入服务 | `sources` 为空 | 图谱通道照常工作，`source_meta.degraded_reason` 如实标注 |
+| Neo4j | 图存储不可用 | 回落内置 JSON 图谱，`source_meta.kg_mode=embedded` |
+| 图谱未命中 | 无路径 | 回退纯向量检索，`retrieval_mode=vector` |
+| 单条处方字段缺失 | 校验不通过 | `validated=false` 并列出 `validation_errors`，前端按缺失字段隐藏模块 |
+| 多智能体异常 | 状态图抛错 | 自动回落单体 ReAct Agent（`AGENT_MODE=legacy`） |
+

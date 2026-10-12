@@ -151,7 +151,7 @@ watch(
   min-height: 700px;
   height: calc(100vh - 200px);
   max-height: none;
-  box-shadow: 0 8px 32px rgba(26, 74, 46, 0.04);
+  box-shadow: 0 8px 32px rgba(10, 92, 51, 0.04);
 }
 
 @media (min-width: 768px) {

@@ -1,0 +1,1 @@
+"use strict";const e=require("../common/vendor.js"),t=require("../utils/markdown.js"),n={__name:"MarkdownRender",props:{content:{type:String,default:""}},setup(n){const o=n,r=e.computed(()=>t.mdToHtml(o.content));return(t,o)=>e.e({a:r.value},r.value?{b:r.value}:{c:e.t(n.content||"暂无内容")})}},o=e._export_sfc(n,[["__scopeId","data-v-aaabc644"]]);wx.createComponent(o);

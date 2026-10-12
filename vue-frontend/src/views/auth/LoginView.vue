@@ -9,12 +9,12 @@
           alt="川南梯田"
           class="w-full h-full object-cover ken-burns"
         />
-        <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(26,74,46,0.65),rgba(22,40,55,0.35),rgba(26,74,46,0.55))"></div>
+        <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,92,51,0.65),rgba(22,40,55,0.35),rgba(10,92,51,0.55))"></div>
       </div>
 
       <!-- 浮动光晕 -->
       <div class="absolute top-1/5 right-1/4 w-72 h-72 rounded-full bg-[#E8B84B]/10 blur-[100px] floating" style="animation-duration:7s"></div>
-      <div class="absolute bottom-1/4 left-1/4 w-60 h-60 rounded-full bg-[#4CAF50]/8 blur-[80px] floating-delay"></div>
+      <div class="absolute bottom-1/4 left-1/4 w-60 h-60 rounded-full bg-[#2E9D63]/8 blur-[80px] floating-delay"></div>
 
       <!-- 内容 -->
       <div class="relative z-10 text-center text-white px-12 brand-content">
@@ -50,7 +50,7 @@
     <!-- ====== 右侧表单 ====== -->
     <div class="flex-1 flex items-center justify-center p-8" style="background:linear-gradient(135deg,var(--cream),#F9F5EF)">
       <div class="w-full max-w-[440px] form-card rounded-[2rem] p-10 bg-white"
-        style="box-shadow:0 4px 6px rgba(0,0,0,0.02),0 10px 30px rgba(0,0,0,0.04),0 20px 60px rgba(26,74,46,0.04)">
+        style="box-shadow:0 4px 6px rgba(0,0,0,0.02),0 10px 30px rgba(0,0,0,0.04),0 20px 60px rgba(10,92,51,0.04)">
         <!-- 标题 -->
         <div class="text-center mb-8">
           <h2 class="text-2xl font-['Noto_Serif_SC'] font-bold mb-2" style="color:var(--brown)">欢迎回来</h2>
@@ -192,10 +192,10 @@ onMounted(refresh)
 .custom-input :deep(.el-input__wrapper) {
   border-radius: 12px;
   transition: all 0.3s ease;
-  box-shadow: 0 0 0 0 rgba(45, 122, 74, 0);
+  box-shadow: 0 0 0 0 rgba(14, 122, 68, 0);
 }
 .custom-input :deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 3px rgba(45, 122, 74, 0.1), 0 0 0 1px var(--green) !important;
+  box-shadow: 0 0 0 3px rgba(14, 122, 68, 0.1), 0 0 0 1px var(--green) !important;
 }
 
 /* 验证码 */
@@ -225,7 +225,7 @@ onMounted(refresh)
 }
 .login-submit-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(45, 122, 74, 0.3) !important;
+  box-shadow: 0 6px 20px rgba(14, 122, 68, 0.3) !important;
 }
 .login-submit-btn:active {
   transform: scale(0.98);

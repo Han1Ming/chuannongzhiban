@@ -85,6 +85,37 @@
     <path d="M8.2 7.3l7.5-1.9M18.2 7.2l-1.6 7.7M14.8 15.9l-8.4 1.8M8.2 8.3l-1.7 8.6" :stroke="color" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
   </svg>
 
+  <!--
+    ===== 对话操作栏图标 =====
+    Element Plus 图标集（294 个）里**没有**喇叭/声波图标，也没有点赞/点踩图标，
+    因此这 4 个必须自绘。统一 24×24 视框、1.7 描边、round 端点，与上面既有图标风格一致。
+    路径取自 lucide（MIT）的 volume / thumbs 系列，保证图形语义是被用户认得的形状。
+  -->
+
+  <!-- 语音朗读 · 待播（静默喇叭：只有喇叭本体，没有声波） -->
+  <svg v-else-if="name==='speaker'" :width="size" :height="size" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6a1.4 1.4 0 0 1-1 .4H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4a.7.7 0 0 0 1.2-.5V4.7z" :fill="color" :stroke="color" stroke-width="1.4" stroke-linejoin="round"/>
+  </svg>
+
+  <!-- 语音朗读 · 播放中（喇叭 + 两道声波，与待播态形成"图标变形"） -->
+  <svg v-else-if="name==='speaker-wave'" :width="size" :height="size" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6a1.4 1.4 0 0 1-1 .4H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4a.7.7 0 0 0 1.2-.5V4.7z" :fill="color" :stroke="color" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="M15.6 8.9a4.4 4.4 0 0 1 0 6.2" :stroke="color" stroke-width="1.7" stroke-linecap="round"/>
+    <path d="M18.7 5.8a8.8 8.8 0 0 1 0 12.4" :stroke="color" stroke-width="1.7" stroke-linecap="round"/>
+  </svg>
+
+  <!-- 赞（图标名沿用 lucide thumbs-up 的形状：拇指上竖 + 手掌） -->
+  <svg v-else-if="name==='thumb-up'" :width="size" :height="size" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 10v12" :stroke="color" stroke-width="1.7" stroke-linecap="round"/>
+    <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" :stroke="color" stroke-width="1.7" stroke-linejoin="round"/>
+  </svg>
+
+  <!-- 踩（thumbs-up 的 180° 镜像，保证两个图标成套） -->
+  <svg v-else-if="name==='thumb-down'" :width="size" :height="size" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17 14V2" :stroke="color" stroke-width="1.7" stroke-linecap="round"/>
+    <path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z" :stroke="color" stroke-width="1.7" stroke-linejoin="round"/>
+  </svg>
+
   <!-- 默认 Fallback -->
   <svg v-else :width="size" :height="size" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="12" cy="12" r="10" :stroke="color" stroke-width="1.5"/>

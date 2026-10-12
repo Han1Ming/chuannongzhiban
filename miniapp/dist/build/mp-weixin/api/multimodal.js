@@ -1,0 +1,1 @@
+"use strict";const e=require("./request.js");exports.diagnoseImage=function(t){return e.uploadFile("/api/multimodal/diagnose",t,"files")},exports.textToSpeech=function(t){return e.post("/api/multimodal/text-to-speech",{text:t})},exports.voiceToText=function(t){return e.uploadFile("/api/multimodal/voice-to-text",t,"file")};

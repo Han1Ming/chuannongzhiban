@@ -7,11 +7,11 @@
         <div v-for="(img, idx) in heroImages" :key="idx" class="absolute inset-0 transition-opacity duration-[2000ms] ease-in-out" :style="{ opacity: currentHero === idx ? 1 : 0 }">
           <img :src="img" alt="川南农业风光" class="w-full h-full object-cover ken-burns" />
         </div>
-        <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(26,74,46,0.72) 0%,rgba(22,40,55,0.45) 35%,rgba(45,122,74,0.38) 60%,rgba(26,74,46,0.65) 100%)"></div>
+        <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,92,51,0.72) 0%,rgba(22,40,55,0.45) 35%,rgba(14,122,68,0.38) 60%,rgba(10,92,51,0.65) 100%)"></div>
         <div class="absolute inset-0" style="background:radial-gradient(ellipse at 30% 25%,rgba(232,184,75,0.12) 0%,transparent 60%)"></div>
       </div>
       <div class="absolute top-1/5 left-1/5 w-[500px] h-[500px] rounded-full bg-[#E8B84B]/8 blur-[120px] floating" style="animation-duration:7s"></div>
-      <div class="absolute top-2/5 right-1/5 w-[400px] h-[400px] rounded-full bg-[#4CAF50]/10 blur-[100px] floating-delay"></div>
+      <div class="absolute top-2/5 right-1/5 w-[400px] h-[400px] rounded-full bg-[#2E9D63]/10 blur-[100px] floating-delay"></div>
       <div class="absolute bottom-1/5 left-1/3 w-[350px] h-[350px] rounded-full bg-white/[0.04] blur-[90px] floating-delay-2"></div>
       <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/8 text-white/85 text-sm mb-10 border border-white/8 backdrop-blur-md reveal-scale">
@@ -29,8 +29,8 @@
           智能问答、作物诊断、种植匹配等全方位AI服务
         </p>
         <div class="flex items-center justify-center gap-5 flex-wrap mb-16">
-          <router-link to="/chat" class="hero-btn-primary inline-flex items-center gap-2 px-10 py-4 rounded-full bg-white text-[#1A4A2E] font-bold text-base no-underline transition-all duration-300">
-            <AgriIcons name="chat" :size="18" color="#1A4A2E" /> 开始智能问答
+          <router-link to="/chat" class="hero-btn-primary inline-flex items-center gap-2 px-10 py-4 rounded-full bg-white text-[#0A5C33] font-bold text-base no-underline transition-all duration-300">
+            <AgriIcons name="chat" :size="18" color="#0A5C33" /> 开始智能问答
             <span class="btn-glow"></span>
           </router-link>
           <a href="#features" class="hero-btn-secondary inline-flex items-center gap-2 px-10 py-4 rounded-full border border-white/25 text-white/85 font-medium text-base no-underline hover:bg-white/8 transition-all duration-300 group">
@@ -58,7 +58,7 @@
       <div class="max-w-6xl mx-auto relative z-10">
         <div ref="$featureTitle" class="text-center mb-16 reveal">
           <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium" style="background:var(--green-mist);color:var(--green)">
-            <AgriIcons name="leaf" :size="14" color="#2D7A4A" /> 核心功能
+            <AgriIcons name="leaf" :size="14" color="#0E7A44" /> 核心功能
           </div>
           <h2 class="font-['Noto_Serif_SC'] text-4xl md:text-5xl font-bold mt-5" style="color:var(--green-deep)">七大AI能力</h2>
           <p class="mt-4 text-lg" style="color:var(--brown-faint)">覆盖农业生产全流程的智能化解决方案</p>
@@ -108,7 +108,7 @@
               </div>
             </div>
           </div>
-          <router-link to="/knowledge-graph" class="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-xl text-white font-semibold no-underline transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl" style="background:linear-gradient(135deg,#0F766E,#2D7A4A);box-shadow:0 8px 24px rgba(15,118,110,0.2)">
+          <router-link to="/knowledge-graph" class="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-xl text-white font-semibold no-underline transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl" style="background:linear-gradient(135deg,#0F766E,#0E7A44);box-shadow:0 8px 24px rgba(15,118,110,0.2)">
             <AgriIcons name="graph" :size="17" color="white" /> 进入知识图谱
           </router-link>
         </div>
@@ -123,7 +123,7 @@
       <div class="max-w-6xl mx-auto relative z-10">
         <div ref="$sceneTitle" class="text-center mb-16 reveal">
           <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium" style="background:var(--green-mist);color:var(--green)">
-            <AgriIcons name="camera" :size="14" color="#2D7A4A" /> 应用场景
+            <AgriIcons name="camera" :size="14" color="#0E7A44" /> 应用场景
           </div>
           <h2 class="font-['Noto_Serif_SC'] text-4xl font-bold mt-4" style="color:var(--green-deep)">科技赋能农业生产</h2>
           <p class="mt-3" style="color:var(--brown-faint)">从田间到云端，AI全程守护川南农业</p>
@@ -153,7 +153,7 @@
 
     <div class="relative h-80 overflow-hidden">
       <img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1920&q=80" alt="晨雾梯田" class="absolute inset-0 w-full h-full object-cover ken-burns" style="filter:brightness(0.35)" loading="lazy" />
-      <div class="absolute inset-0 flex items-center justify-center" style="background:linear-gradient(180deg,rgba(26,74,46,0.5),rgba(26,74,46,0.7))">
+      <div class="absolute inset-0 flex items-center justify-center" style="background:linear-gradient(180deg,rgba(10,92,51,0.5),rgba(10,92,51,0.7))">
         <div class="text-center text-white px-6">
           <p class="text-xl md:text-3xl font-['Noto_Serif_SC'] font-light tracking-[0.2em] reveal-scale">用AI的力量，守护每一寸土地</p>
           <div class="relative mt-6 flex justify-center"><div class="h-px bg-[#E8B84B] gold-divider-extend mx-auto"></div></div>
@@ -165,7 +165,7 @@
       <div class="max-w-5xl mx-auto">
         <div ref="$stepTitle" class="text-center mb-20 reveal">
           <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium" style="background:var(--green-mist);color:var(--green)">
-            <AgriIcons name="sprout" :size="14" color="#2D7A4A" /> 使用流程
+            <AgriIcons name="sprout" :size="14" color="#0E7A44" /> 使用流程
           </div>
           <h2 class="font-['Noto_Serif_SC'] text-4xl font-bold mt-4" style="color:var(--green-deep)">简单三步，开始智慧农业</h2>
         </div>
@@ -211,15 +211,15 @@
     <section class="relative py-32 px-6 overflow-hidden">
       <div class="absolute inset-0">
         <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80" alt="日出田野" class="w-full h-full object-cover ken-burns" loading="lazy" />
-        <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(26,74,46,0.88),rgba(22,40,55,0.6),rgba(26,74,46,0.82))"></div>
+        <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,92,51,0.88),rgba(22,40,55,0.6),rgba(10,92,51,0.82))"></div>
         <div class="absolute inset-0" style="background:radial-gradient(ellipse at center,rgba(232,184,75,0.1),transparent 70%)"></div>
       </div>
       <div class="relative z-10 max-w-2xl mx-auto text-center">
         <h2 class="font-['Noto_Serif_SC'] text-3xl md:text-4xl font-bold mb-4 text-white cta-breathing">准备好开始智慧农业了吗？</h2>
         <p class="text-white/75 mb-10 text-lg">免费注册，即刻体验AI驱动的农业智能服务</p>
         <div class="flex items-center justify-center gap-5 flex-wrap">
-          <router-link to="/register" class="cta-btn-cta inline-flex items-center gap-2 px-10 py-4 rounded-full bg-white text-[#1A4A2E] font-bold no-underline transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5 relative overflow-hidden">
-            <span class="relative z-10 flex items-center gap-2"><AgriIcons name="user" :size="18" color="#1A4A2E" /> 免费注册</span>
+          <router-link to="/register" class="cta-btn-cta inline-flex items-center gap-2 px-10 py-4 rounded-full bg-white text-[#0A5C33] font-bold no-underline transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5 relative overflow-hidden">
+            <span class="relative z-10 flex items-center gap-2"><AgriIcons name="user" :size="18" color="#0A5C33" /> 免费注册</span>
           </router-link>
           <router-link to="/chat" class="cta-btn-cta inline-flex items-center gap-2 px-10 py-4 rounded-full border border-white/25 text-white font-medium no-underline hover:bg-white/8 transition-all duration-300 hover:-translate-y-0.5 relative overflow-hidden">
             <span class="relative z-10 flex items-center gap-2"><AgriIcons name="chat" :size="18" color="white" /> 体验问答</span>
@@ -235,7 +235,7 @@ import { reactive, ref, onMounted, onUnmounted, nextTick } from 'vue'
 import AgriIcons from '@/components/icons/AgriIcons.vue'
 
 const features = [
-  { icon: 'chat', title: '智能问答', desc: '基于RAG技术的农业知识问答，精准回答水稻、柑橘、茶叶等各类农技问题', bg: '#E8F5E9', color: '#2D7A4A' },
+  { icon: 'chat', title: '智能问答', desc: '基于RAG技术的农业知识问答，精准回答水稻、柑橘、茶叶等各类农技问题', bg: '#E8F5E9', color: '#0E7A44' },
   { icon: 'book', title: '农技知识库', desc: '海量农技知识资源，覆盖种植、养殖、畜牧等领域，支持智能RAG检索', bg: '#F5EDE0', color: '#C4A882' },
   { icon: 'camera', title: '图片诊断', desc: '上传作物图片，AI自动识别病虫害，并提供专业防治建议', bg: '#DBEAFE', color: '#3B82F6' },
   { icon: 'sprout', title: '种植匹配', desc: '根据地区、季节和农业类型，智能推荐最适合的种植方案', bg: '#FCE7F3', color: '#EC4899' },
@@ -252,7 +252,7 @@ const kgPoints = [
 ]
 
 const scenes = [
-  { img: '/images/水稻种植.jpg', title: '水稻种植', icon: 'rice', bg: '#E8F5E9', color: '#2D7A4A', desc: 'AI智能识别稻瘟病、纹枯病等常见病害，精准推荐防治方案，保障水稻丰收' },
+  { img: '/images/水稻种植.jpg', title: '水稻种植', icon: 'rice', bg: '#E8F5E9', color: '#0E7A44', desc: 'AI智能识别稻瘟病、纹枯病等常见病害，精准推荐防治方案，保障水稻丰收' },
   { img: '/images/柑橘果园.jpg', title: '柑橘果园', icon: 'leaf', bg: '#FEF3C7', color: '#D97706', desc: '基于多模态技术分析柑橘叶片和果实状态，提供施肥、修剪、病虫害管理建议' },
   { img: '/images/茶叶种植.jpg', title: '茶叶种植', icon: 'leaf', bg: '#D1FAE5', color: '#059669', desc: '结合川南茶区气候数据，优化采摘时机与养护方案，提升茶叶品质与产量' },
   { img: '/images/蔬菜大棚.jpg', title: '蔬菜大棚', icon: 'sprout', bg: '#FCE7F3', color: '#DB2777', desc: '智能监测大棚温湿度与光照条件，自动调节环境参数，实现精准设施农业' },
@@ -261,7 +261,7 @@ const scenes = [
 ]
 
 const steps = [
-  { icon: 'user', title: '注册账号', desc: '手机号快速注册，即刻开启AI农业服务', bg: '#E8F5E9', color: '#2D7A4A' },
+  { icon: 'user', title: '注册账号', desc: '手机号快速注册，即刻开启AI农业服务', bg: '#E8F5E9', color: '#0E7A44' },
   { icon: 'chat', title: '交互提问', desc: '输入农业问题或上传作物图片，AI即刻响应', bg: '#FEF3C7', color: '#D97706' },
   { icon: 'leaf', title: '获得方案', desc: '获取精准的种植建议、病虫害诊断和收益分析', bg: '#D1FAE5', color: '#059669' }
 ]
@@ -334,7 +334,7 @@ onUnmounted(() => { if (heroTimer) clearInterval(heroTimer); if (observer) obser
 .gold-line { width: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); border-radius: 2px; animation: goldLineExtend 1s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards; }
 @keyframes goldLineExtend { 0% { width: 0; opacity: 0; } 100% { width: 80px; opacity: 1; } }
 .btn-glow { position: absolute; inset: -4px; border-radius: 9999px; background: transparent; animation: btnGlowPulse 2.5s ease-in-out infinite; pointer-events: none; z-index: -1; }
-@keyframes btnGlowPulse { 0%, 100% { box-shadow: 0 0 12px rgba(255,255,255,0.5), 0 0 30px rgba(45,122,74,0.2); } 50% { box-shadow: 0 0 24px rgba(255,255,255,0.8), 0 0 50px rgba(45,122,74,0.4); } }
+@keyframes btnGlowPulse { 0%, 100% { box-shadow: 0 0 12px rgba(255,255,255,0.5), 0 0 30px rgba(14,122,68,0.2); } 50% { box-shadow: 0 0 24px rgba(255,255,255,0.8), 0 0 50px rgba(14,122,68,0.4); } }
 .hero-btn-primary { position: relative; z-index: 1; }
 .hero-btn-primary:hover { transform: translateY(-2px); }
 .scroll-dot { animation: scrollDotBounce 2s ease-in-out infinite; }
@@ -351,7 +351,7 @@ onUnmounted(() => { if (heroTimer) clearInterval(heroTimer); if (observer) obser
 @keyframes goldDivExtend { 0% { width: 0; opacity: 0; } 100% { width: 80px; opacity: 1; } }
 @keyframes arrowFlow { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 .cta-breathing { animation: ctaTextBreathe 3s ease-in-out infinite; }
-@keyframes ctaTextBreathe { 0%, 100% { text-shadow: 0 0 20px rgba(232,184,75,0.2); } 50% { text-shadow: 0 0 40px rgba(232,184,75,0.5), 0 0 60px rgba(45,122,74,0.3); } }
+@keyframes ctaTextBreathe { 0%, 100% { text-shadow: 0 0 20px rgba(232,184,75,0.2); } 50% { text-shadow: 0 0 40px rgba(232,184,75,0.5), 0 0 60px rgba(14,122,68,0.3); } }
 .cta-btn-cta { position: relative; }
 .cta-btn-cta::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent); transition: left 0.6s ease; z-index: 0; }
 .cta-btn-cta:hover::before { left: 100%; }

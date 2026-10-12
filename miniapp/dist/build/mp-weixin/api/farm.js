@@ -1,0 +1,1 @@
+"use strict";const e=require("./request.js");exports.calculateBudget=function(t,r,a,c){return e.post("/api/farm/calculate",{area:t,cost_per_mu:r,yield_per_mu:a,price_per_unit:c})},exports.matchRecommendation=function(t,r,a){return e.post("/api/farm/match",{region:t,farming_type:r,season:a})};

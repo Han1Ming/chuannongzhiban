@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "confidence-tag": "./ConfidenceTag",
+    "source-list": "./SourceList",
+    "severity-tag": "../SeverityTag"
+  }
+}

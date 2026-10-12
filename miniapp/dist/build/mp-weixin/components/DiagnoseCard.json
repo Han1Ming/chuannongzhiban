@@ -1,0 +1,12 @@
+{
+  "component": true,
+  "usingComponents": {
+    "severity-tag": "./SeverityTag",
+    "confidence-tag": "./ai/ConfidenceTag",
+    "low-confidence-guide": "./ai/LowConfidenceGuide",
+    "prescription-card": "./ai/PrescriptionCard",
+    "reasoning-panel": "./ai/ReasoningPanel",
+    "source-list": "./ai/SourceList",
+    "graph-path-tree": "./ai/GraphPathTree"
+  }
+}

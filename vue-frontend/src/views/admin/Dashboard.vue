@@ -51,7 +51,7 @@ const $bar = ref(null); const $pie = ref(null); const $statCards = ref([])
 let bar = null; let pie = null
 
 const statsData = computed(() => [
-  { key: 'total_users', icon: 'UserFilled', label: '注册用户', value: stats.value.total_users || 0, color: '#2D7A4A', bg: '#E8F5E9' },
+  { key: 'total_users', icon: 'UserFilled', label: '注册用户', value: stats.value.total_users || 0, color: '#0E7A44', bg: '#E8F5E9' },
   { key: 'total_chats', icon: 'ChatDotRound', label: '对话总数', value: stats.value.total_chats || 0, color: '#3B82F6', bg: '#DBEAFE' },
   { key: 'total_diagnoses', icon: 'CameraFilled', label: '图片诊断', value: stats.value.total_diagnoses || 0, color: '#D97706', bg: '#FEF3C7' },
   { key: 'total_knowledge', icon: 'Reading', label: '知识条目', value: stats.value.total_knowledge || 0, color: '#7C3AED', bg: '#EDE9FE' }
@@ -94,8 +94,8 @@ function render() {
         itemStyle: {
           borderRadius: [8, 8, 0, 0],
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: '#4CAF50' },
-            { offset: 1, color: '#2D7A4A' }
+            { offset: 0, color: '#2E9D63' },
+            { offset: 1, color: '#0E7A44' }
           ])
         },
         animationDuration: 1500,
@@ -114,7 +114,7 @@ function render() {
         animationEasing: 'cubicOut',
         label: { formatter: '{b}\n{d}%' },
         data: [
-          { value: s.total_users || 0, name: '用户', itemStyle: { color: '#2D7A4A' } },
+          { value: s.total_users || 0, name: '用户', itemStyle: { color: '#0E7A44' } },
           { value: s.total_chats || 0, name: '对话', itemStyle: { color: '#3B82F6' } },
           { value: s.total_diagnoses || 0, name: '诊断', itemStyle: { color: '#D97706' } },
           { value: s.total_knowledge || 0, name: '知识', itemStyle: { color: '#7C3AED' } }

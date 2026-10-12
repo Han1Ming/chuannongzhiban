@@ -5,7 +5,7 @@
     </h2>
 
     <!-- 搜索栏 -->
-    <div class="flex items-center gap-3 mb-5">
+    <div class="flex items-center gap-3 mb-5 flex-wrap">
       <el-input
         v-model="keyword"
         placeholder="搜索手机号或用户名…"
@@ -15,7 +15,18 @@
         @keyup.enter="page=1;load()"
         @clear="page=1;load()"
       />
+      <el-select
+        v-model="roleFilter"
+        placeholder="全部角色"
+        clearable
+        style="width:150px"
+        class="admin-search"
+        @change="page=1;load()"
+      >
+        <el-option v-for="r in ROLE_OPTIONS" :key="r.value" :label="r.label" :value="r.value" />
+      </el-select>
       <el-button type="primary" :icon="Search" @click="page=1;load()" class="!rounded-xl">搜索</el-button>
+      <span class="text-xs" style="color:var(--brown-faint)">共 {{ total }} 人</span>
     </div>
 
     <!-- 用户表格 -->
@@ -24,9 +35,12 @@
         <el-table-column prop="id" label="ID" width="70" />
         <el-table-column prop="phone" label="手机号" width="140" />
         <el-table-column prop="username" label="用户名" width="140" />
-        <el-table-column prop="role" label="角色" width="100">
+        <el-table-column prop="role" label="角色" width="120">
           <template #default="{ row }">
-            <el-tag :type="row.role === 'ADMIN' ? 'danger' : 'success'" size="small" round>{{ row.role }}</el-tag>
+            <!-- role 由后端返回；缺失时兜底为 USER，避免出现空白单元格 -->
+            <el-tag :type="roleMeta(row.role).type" size="small" round effect="light">
+              {{ roleMeta(row.role).label }}
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column label="注册时间" min-width="150">
@@ -63,6 +77,17 @@
         </el-form-item>
         <el-form-item label="用户名">
           <el-input v-model="edit.username" class="!rounded-xl" />
+        </el-form-item>
+        <el-form-item label="所在地">
+          <el-input
+            v-model="edit.location"
+            class="!rounded-xl"
+            placeholder="如：宜宾市"
+            maxlength="50"
+          />
+          <div class="text-xs mt-1" style="color:var(--brown-faint)">
+            用于天气查询与处方地区适配；留空则相关功能会提示补全
+          </div>
         </el-form-item>
         <el-form-item label="重置密码">
           <el-switch v-model="edit.reset_password" />
@@ -114,6 +139,22 @@ const users = ref([]); const loading = ref(false); const dialog = ref(false); co
 const edit = ref({ phone: '', username: '', reset_password: false })
 const currentId = ref(null)
 const page = ref(1); const pageSize = ref(20); const total = ref(0); const keyword = ref('')
+const roleFilter = ref('')
+
+// 角色展示口径：后端存的是 USER / ADMIN / GOV，直接显示英文代码对管理员不友好
+const ROLE_OPTIONS = [
+  { value: 'USER', label: '普通用户' },
+  { value: 'GOV', label: '政府人员' },
+  { value: 'ADMIN', label: '管理员' }
+]
+const ROLE_META = {
+  ADMIN: { label: '管理员', type: 'danger' },
+  GOV: { label: '政府人员', type: 'warning' },
+  USER: { label: '普通用户', type: 'success' }
+}
+function roleMeta(role) {
+  return ROLE_META[(role || 'USER').toUpperCase()] || { label: role || '未知', type: 'info' }
+}
 
 const chatDialog = ref(false); const chatLoading = ref(false); const chatError = ref('')
 const chatSessions = ref([]); const chatUserPhone = ref('')
@@ -121,14 +162,22 @@ const chatSessions = ref([]); const chatUserPhone = ref('')
 async function load() {
   loading.value = true
   try {
-    const r = await getAdminUserListPaginated(page.value, pageSize.value, keyword.value)
+    const r = await getAdminUserListPaginated(page.value, pageSize.value, keyword.value, roleFilter.value)
     users.value = r?.items || []
     total.value = r?.total || 0
   } catch { users.value = [] }
   finally { loading.value = false }
 }
 function openEdit(row) {
-  currentId.value = row.id; edit.value = { phone: row.phone, username: row.username, reset_password: false }; dialog.value = true
+  currentId.value = row.id
+  // 带上所在地：它是天气查询与地区适配的依据，管理员需要能补全
+  edit.value = {
+    phone: row.phone,
+    username: row.username,
+    location: row.location || '',
+    reset_password: false
+  }
+  dialog.value = true
 }
 async function handleSave() {
   saving.value = true

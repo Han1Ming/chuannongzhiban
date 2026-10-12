@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "AI智能问答",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "nav-bar": "../../components/NavBar",
+    "markdown-render": "../../components/MarkdownRender",
+    "confidence-tag": "../../components/ai/ConfidenceTag",
+    "prescription-card": "../../components/ai/PrescriptionCard",
+    "low-confidence-guide": "../../components/ai/LowConfidenceGuide",
+    "reasoning-panel": "../../components/ai/ReasoningPanel",
+    "source-list": "../../components/ai/SourceList",
+    "graph-path-tree": "../../components/ai/GraphPathTree",
+    "agent-trace": "../../components/ai/AgentTrace"
+  }
+}

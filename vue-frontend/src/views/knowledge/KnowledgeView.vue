@@ -9,7 +9,7 @@
         style="filter:brightness(0.5);min-width:100%;min-height:100%"
         loading="lazy"
       />
-      <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(26,74,46,0.55),rgba(45,122,74,0.3))"></div>
+      <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,92,51,0.55),rgba(14,122,68,0.3))"></div>
       <div class="absolute inset-0 flex items-center justify-center">
         <div class="text-center text-white">
           <h1 class="font-['Noto_Serif_SC'] text-4xl md:text-5xl font-bold mb-2">农技知识库</h1>
@@ -58,9 +58,19 @@
     <transition-group name="rag" tag="div">
       <div v-if="rag.length" key="rag-box" class="max-w-3xl mx-auto mb-10 p-6 rounded-2xl rag-box"
         style="background:linear-gradient(135deg,#FEF3C7,#FDF8F3,#FEF9E7)">
-        <div class="flex items-center gap-2 mb-4">
+        <div class="flex items-center gap-2 mb-4 flex-wrap">
           <span class="px-3 py-1 rounded-full text-xs font-bold" style="background:var(--gold);color:#7C5E00">🤖 AI 检索</span>
           <span class="text-xs" style="color:var(--brown-faint)">基于RAG技术的智能匹配结果</span>
+          <!-- 检索通道如实标注：关键词降级时不能让人误以为是向量检索结果 -->
+          <span
+            v-if="ragMeta"
+            class="px-2 py-0.5 rounded-full text-[11px]"
+            :style="ragMeta.retrieval_mode === 'vector'
+              ? 'background:#E8F5E9;color:#0E7A44'
+              : 'background:#FEF3C7;color:#B45309'"
+          >
+            {{ ragMeta.retrieval_mode === 'vector' ? '向量检索' : '关键词检索（嵌入服务不可用，已自动降级）' }}
+          </span>
         </div>
         <div
           v-for="(r, i) in rag"
@@ -70,11 +80,27 @@
         >
           <div class="flex items-start gap-3">
             <div class="w-1 self-stretch rounded-full shrink-0" style="background:var(--green-light)"></div>
-            <p class="text-sm leading-relaxed" style="color:#3E2C1C">{{ r.content }}</p>
+            <div class="min-w-0 flex-1">
+              <p class="text-sm leading-relaxed" style="color:#3E2C1C">{{ r.content }}</p>
+              <p class="text-[11px] mt-1" style="color:var(--brown-faint)">
+                <span v-if="r.source">来源：{{ String(r.source).split(/[\\/]/).pop() }}</span>
+                <span v-if="r.similarity != null"> · 匹配度 {{ (r.similarity * 100).toFixed(0) }}%</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </transition-group>
+
+    <!-- 检索无结果时给出明确提示，而不是静默空白 -->
+    <div v-if="!loading && kw && !rag.length" class="max-w-3xl mx-auto mb-10 p-6 rounded-2xl text-center"
+      style="background:#FAF8F4;border:1px solid #f0ece4">
+      <div class="text-3xl mb-2 opacity-40">🔍</div>
+      <p class="text-sm" style="color:var(--brown-soft)">知识库中没有找到与「{{ kw }}」匹配的片段</p>
+      <p class="text-xs mt-1" style="color:var(--brown-faint)">
+        可换用更具体的关键词（如病害名、作物名），或联系管理员确认知识库是否已录入该内容
+      </p>
+    </div>
 
     <!-- ====== 骨架屏 ====== -->
     <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -145,10 +171,12 @@ import { KNOWLEDGE_CATEGORIES } from '@/utils/constants'
 import { formatDate } from '@/utils/format'
 import { Search } from '@element-plus/icons-vue'
 
-const CAT_COLORS = ['#2D7A4A', '#D97706', '#3B82F6', '#EC4899', '#6366F1', '#059669', '#7C3AED', '#DC2626']
+const CAT_COLORS = ['#0E7A44', '#D97706', '#3B82F6', '#EC4899', '#6366F1', '#059669', '#7C3AED', '#DC2626']
 
 const cats = KNOWLEDGE_CATEGORIES; const cur = ref(''); const kw = ref('')
 const list = ref([]); const rag = ref([]); const loading = ref(true)
+// 检索通道提示：嵌入服务不可用时后端会回退关键词检索，界面要如实告知而不是静默降级
+const ragMeta = ref(null)
 
 function getLabel(v) { return cats.find(c => c.value === v)?.label?.replace(/^[^\s]+\s/, '') || v }
 function getCatColor(v) {
@@ -157,14 +185,18 @@ function getCatColor(v) {
 }
 
 async function load() {
-  loading.value = true; rag.value = []
+  loading.value = true; rag.value = []; ragMeta.value = null
   try { list.value = (await getKnowledgeList(cur.value || undefined)) || [] } catch { list.value = [] }
   finally { loading.value = false }
 }
 async function handleSearch() {
   if (!kw.value.trim()) return load()
   loading.value = true; list.value = []
-  try { rag.value = (await searchKnowledge(kw.value.trim(), 5)) || [] } catch { rag.value = [] }
+  try {
+    const r = await searchKnowledge(kw.value.trim(), 5)
+    rag.value = r?.items || []
+    ragMeta.value = r?.source_meta || null
+  } catch { rag.value = []; ragMeta.value = null }
   finally { loading.value = false }
 }
 onMounted(load)
@@ -192,7 +224,7 @@ onMounted(load)
   background: linear-gradient(135deg, var(--green), var(--green-deep));
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 4px 16px rgba(45, 122, 74, 0.25);
+  box-shadow: 0 4px 16px rgba(14, 122, 68, 0.25);
 }
 .cat-dot {
   display: inline-block;
@@ -224,7 +256,7 @@ onMounted(load)
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 .knowledge-search :deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 3px rgba(45, 122, 74, 0.1), 0 4px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 0 0 3px rgba(14, 122, 68, 0.1), 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 .search-btn {
   background: var(--green) !important;

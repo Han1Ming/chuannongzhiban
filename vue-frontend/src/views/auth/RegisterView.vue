@@ -8,10 +8,10 @@
           alt="茶园"
           class="w-full h-full object-cover ken-burns"
         />
-        <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(26,74,46,0.65),rgba(22,40,55,0.35),rgba(26,74,46,0.55))"></div>
+        <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,92,51,0.65),rgba(22,40,55,0.35),rgba(10,92,51,0.55))"></div>
       </div>
       <div class="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-[#E8B84B]/10 blur-[90px] floating" style="animation-duration:8s"></div>
-      <div class="absolute bottom-1/3 left-1/4 w-56 h-56 rounded-full bg-[#4CAF50]/8 blur-[70px] floating-delay"></div>
+      <div class="absolute bottom-1/3 left-1/4 w-56 h-56 rounded-full bg-[#2E9D63]/8 blur-[70px] floating-delay"></div>
 
       <div class="relative z-10 text-center text-white px-12 brand-content">
         <div class="mb-10 inline-flex items-center justify-center w-28 h-28 rounded-3xl bg-white/12 backdrop-blur-md border border-white/15 logo-breathe">
@@ -41,7 +41,7 @@
     <div class="flex-1 flex items-center justify-center p-8" style="background:linear-gradient(135deg,var(--cream),#F9F5EF)">
       <!-- 成功动画 -->
       <div v-if="regSuccess" class="success-card w-full max-w-[440px] text-center p-12 rounded-[2rem] bg-white"
-        style="box-shadow:0 4px 6px rgba(0,0,0,0.02),0 10px 30px rgba(0,0,0,0.04),0 20px 60px rgba(26,74,46,0.04)">
+        style="box-shadow:0 4px 6px rgba(0,0,0,0.02),0 10px 30px rgba(0,0,0,0.04),0 20px 60px rgba(10,92,51,0.04)">
         <div class="success-check mb-6">
           <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto" style="background:var(--green-mist)">
             <span class="text-4xl">✅</span>
@@ -54,7 +54,7 @@
 
       <!-- 注册表单 -->
       <div v-else class="w-full max-w-[440px] form-card rounded-[2rem] p-10 bg-white"
-        style="box-shadow:0 4px 6px rgba(0,0,0,0.02),0 10px 30px rgba(0,0,0,0.04),0 20px 60px rgba(26,74,46,0.04)">
+        style="box-shadow:0 4px 6px rgba(0,0,0,0.02),0 10px 30px rgba(0,0,0,0.04),0 20px 60px rgba(10,92,51,0.04)">
         <div class="text-center mb-8">
           <h2 class="text-2xl font-['Noto_Serif_SC'] font-bold mb-2" style="color:var(--brown)">创建账号</h2>
           <div class="title-underline"></div>
@@ -223,10 +223,10 @@ onUnmounted(() => { if (cdTimer) clearInterval(cdTimer) })
 .custom-input :deep(.el-input__wrapper) {
   border-radius: 12px;
   transition: all 0.3s ease;
-  box-shadow: 0 0 0 0 rgba(45, 122, 74, 0);
+  box-shadow: 0 0 0 0 rgba(14, 122, 68, 0);
 }
 .custom-input :deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 3px rgba(45, 122, 74, 0.1), 0 0 0 1px var(--green) !important;
+  box-shadow: 0 0 0 3px rgba(14, 122, 68, 0.1), 0 0 0 1px var(--green) !important;
 }
 .captcha-box {
   transition: all 0.3s ease;
@@ -250,7 +250,7 @@ onUnmounted(() => { if (cdTimer) clearInterval(cdTimer) })
 }
 .login-submit-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(45, 122, 74, 0.3) !important;
+  box-shadow: 0 6px 20px rgba(14, 122, 68, 0.3) !important;
 }
 .login-submit-btn:active {
   transform: scale(0.98);

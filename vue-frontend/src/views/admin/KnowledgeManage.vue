@@ -31,16 +31,58 @@
 
     <!-- RAG 搜索测试 -->
     <div class="bg-white rounded-2xl border border-[#e8e0d4] p-5 mb-6">
-      <h3 class="font-['Noto_Serif_SC'] font-bold text-sm mb-3" style="color:var(--brown)">🔍 知识库检索测试</h3>
-      <div class="flex gap-3">
-        <el-input v-model="searchQuery" placeholder="输入搜索文本，测试RAG检索效果…" clearable @keyup.enter="handleSearchTest" />
+      <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <h3 class="font-['Noto_Serif_SC'] font-bold text-sm" style="color:var(--brown)">🔍 知识库检索测试</h3>
+        <!-- 通道状态：嵌入不可用时如实告知，避免管理员以为"检索坏了" -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <el-tag v-if="stats" size="small" type="info" round>已索引 {{ stats.document_count ?? '-' }} 条切片</el-tag>
+          <el-tag v-if="stats" size="small" round
+            :type="stats.embedding_available ? 'success' : 'warning'">
+            {{ stats.embedding_available ? '向量检索通道正常' : '向量通道不可用，已回退关键词检索' }}
+          </el-tag>
+        </div>
+      </div>
+      <div class="flex gap-3 flex-wrap">
+        <el-input v-model="searchQuery" placeholder="输入搜索文本，测试RAG检索效果…" clearable style="flex:1;min-width:240px" @keyup.enter="handleSearchTest" />
+        <el-select v-model="searchMode" style="width:170px">
+          <el-option label="自动（向量优先）" value="auto" />
+          <el-option label="仅向量检索" value="vector" />
+          <el-option label="仅关键词检索" value="keyword" />
+        </el-select>
         <el-button type="primary" :icon="Search" @click="handleSearchTest" :loading="searching">搜索</el-button>
       </div>
+      <p v-if="stats && !stats.embedding_available" class="text-xs mt-2" style="color:#B45309">
+        ⚠ {{ stats.embedding_error || '嵌入服务不可用' }}
+      </p>
+
+      <div v-if="searchError" class="mt-3 text-xs p-3 rounded-xl" style="background:#FEF2F2;color:#DC2626">
+        {{ searchError }}
+      </div>
+
       <div v-if="searchResults.length" class="mt-4 space-y-3">
+        <div class="text-xs" style="color:var(--brown-faint)">
+          共 {{ searchTotal }} 条匹配 ·
+          本次通道：{{ searchChannel === 'vector' ? '向量检索' : '关键词检索' }}
+        </div>
         <div v-for="(r,i) in searchResults" :key="i" class="p-3 rounded-xl" style="background:#F9F6F0">
           <div class="text-sm leading-relaxed" style="color:var(--brown-soft)">{{ r.content }}</div>
-          <div class="text-xs mt-1" style="color:#bbb">距离分数: {{ r.score?.toFixed(4) || '-' }}</div>
+          <div class="text-xs mt-1" style="color:#bbb">
+            <span v-if="r.similarity != null">匹配度 {{ (r.similarity * 100).toFixed(1) }}%</span>
+            <span v-if="r.score != null"> · 距离分 {{ Number(r.score).toFixed(4) }}</span>
+            <span v-if="r.source"> · 来源 {{ String(r.source).split(/[\\/]/).pop() }}</span>
+            <span v-if="r.retrieval"> · {{ r.retrieval === 'vector' ? '向量' : '关键词' }}</span>
+          </div>
         </div>
+      </div>
+
+      <!-- 无结果时明确提示，而不是静默空白 -->
+      <div v-else-if="searched && !searching" class="mt-4 p-4 rounded-xl text-center" style="background:#FAF8F4">
+        <p class="text-sm" style="color:var(--brown-soft)">没有检索到匹配片段</p>
+        <p class="text-xs mt-1" style="color:var(--brown-faint)">
+          {{ stats && !stats.embedding_available
+            ? '当前为关键词检索通道，建议换用更具体的关键词；补齐嵌入服务额度后向量检索会自动恢复'
+            : '建议换用更具体的关键词（病害名、作物名、政策关键词）' }}
+        </p>
       </div>
     </div>
 
@@ -105,7 +147,7 @@
 <script setup>
 import { ref, reactive, onMounted, watch } from 'vue'
 import { getKnowledgeList, createKnowledge, deleteKnowledge } from '@/api/knowledge'
-import { uploadKnowledgeFile, searchKnowledgeAdmin, getFarmRecords, getAdminKnowledgeItems, getRecommendations } from '@/api/admin'
+import { uploadKnowledgeFile, searchKnowledgeAdmin, getKnowledgeStats, getFarmRecords, getAdminKnowledgeItems, getRecommendations } from '@/api/admin'
 import { KNOWLEDGE_CATEGORIES } from '@/utils/constants'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Search, UploadFilled } from '@element-plus/icons-vue'
@@ -119,7 +161,12 @@ const form = ref({ title:'', category:'rice', content:'', tags:'', source:'' })
 
 // 文件上传RAG
 const uploadFile = ref(null), uploading = ref(false), uploadResult = ref(null)
+// 检索测试：区分「没搜过」「搜过但无结果」「请求失败」三种状态，
+// 否则管理员只能看到一片空白，无法判断问题出在哪
 const searchQuery = ref(''), searchResults = ref([]), searching = ref(false)
+const searchMode = ref('auto'), searchError = ref(''), searched = ref(false)
+const searchTotal = ref(0), searchChannel = ref('vector')
+const stats = ref(null)
 
 // 三个数据表 Tab
 const activeTab = ref('knowledge')
@@ -166,11 +213,25 @@ async function handleUpload() {
 async function handleSearchTest() {
   if (!searchQuery.value.trim()) { searchResults.value = []; return }
   searching.value = true
+  searchError.value = ''
   try {
-    const r = await searchKnowledgeAdmin(searchQuery.value.trim(), 5)
-    searchResults.value = r || []
-  } catch { searchResults.value = [] }
-  finally { searching.value = false }
+    const r = await searchKnowledgeAdmin(searchQuery.value.trim(), 5, searchMode.value)
+    searchResults.value = r?.items || []
+    searchTotal.value = r?.total ?? searchResults.value.length
+    searchChannel.value = r?.source_meta?.retrieval_mode || 'vector'
+    if (r?.source_meta) stats.value = { ...(stats.value || {}), ...r.source_meta }
+  } catch (e) {
+    // 之前这里静默清空结果，管理员只看到"搜不到"，无法判断是没数据还是接口报错
+    searchResults.value = []
+    searchError.value = e?.message || '检索请求失败'
+  } finally {
+    searching.value = false
+    searched.value = true
+  }
+}
+
+async function loadStats() {
+  try { stats.value = await getKnowledgeStats() } catch { /* 状态拿不到不影响检索测试 */ }
 }
 
 // 加载Tab数据
@@ -193,7 +254,7 @@ async function loadTab() {
 }
 
 watch(activeTab, () => { tabPage[activeTab.value] = 1; loadTab() })
-onMounted(() => { load(); loadTab() })
+onMounted(() => { load(); loadTab(); loadStats() })
 </script>
 
 <style scoped>

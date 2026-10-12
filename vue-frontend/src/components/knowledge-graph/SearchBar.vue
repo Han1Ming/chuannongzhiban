@@ -44,6 +44,11 @@
 
 <script setup>
 import { ref } from 'vue'
+// 必须显式 import：全局注册只解决**标签形式**（<Search />），
+// 而 :icon="Search" / :icon="RefreshLeft" 是**值绑定**，会把 Search 当成实例上的属性去读，
+// 没有 import 时读到 undefined —— 结果是按钮图标空白，并在渲染期刷
+// 「Property "Search" was accessed during render but is not defined on instance」警告。
+import { RefreshLeft, Search } from '@element-plus/icons-vue'
 import { searchGraphNodes } from '@/api/knowledgeGraph'
 
 defineProps({

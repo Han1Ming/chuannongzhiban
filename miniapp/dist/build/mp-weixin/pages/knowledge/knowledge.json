@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "农技知识库",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "knowledge-card": "../../components/KnowledgeCard",
+    "loading-skeleton": "../../components/LoadingSkeleton",
+    "empty-state": "../../components/EmptyState"
+  }
+}

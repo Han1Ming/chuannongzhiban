@@ -1,0 +1,1 @@
+"use strict";const e=require("./request.js");exports.loginSimple=function(r,s){return e.post("/api/user/login1",{phone:r,password:s})},exports.register=function(r,s,t){return e.post("/api/user/register",{phone:r,password:s,username:t})},exports.wechatLogin=function(r){return e.post("/api/user/wechat-login",{code:r})};

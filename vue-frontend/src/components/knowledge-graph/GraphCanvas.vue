@@ -201,7 +201,7 @@ defineExpose({ reset })
 
 <style scoped>
 .kg-legend {
-  box-shadow: 0 6px 24px rgba(26, 74, 46, 0.08);
+  box-shadow: 0 6px 24px rgba(10, 92, 51, 0.08);
 }
 .kg-reset-btn {
   padding: 7px 14px;

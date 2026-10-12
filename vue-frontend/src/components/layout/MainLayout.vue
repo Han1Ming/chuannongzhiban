@@ -23,7 +23,7 @@
             <span>首页</span>
             <span class="nav-active-icon">🌱</span>
           </router-link>
-          <router-link to="/chat" class="nav-link" active-class="nav-active">智能问答</router-link>
+          <router-link to="/chat" class="nav-link" active-class="nav-active" @click="onEnterChat">智能问答</router-link>
           <router-link to="/news" class="nav-link" active-class="nav-active">农业新闻</router-link>
           <router-link to="/knowledge" class="nav-link" active-class="nav-active">知识库</router-link>
           <router-link to="/knowledge-graph" class="nav-link" active-class="nav-active">🌾 知识图谱</router-link>
@@ -51,7 +51,7 @@
                   <!-- 移动端：导航链接 -->
                   <div class="md:hidden border-b border-[#f0ece4]">
                     <router-link to="/" class="menu-item" @click="menuOpen = false" exact-active-class="!text-[var(--green)] !bg-[#E8F5E9]">🏠 首页</router-link>
-                    <router-link to="/chat" class="menu-item" @click="menuOpen = false" active-class="!text-[var(--green)] !bg-[#E8F5E9]">💬 智能问答</router-link>
+                    <router-link to="/chat" class="menu-item" @click="menuOpen = false; onEnterChat()" active-class="!text-[var(--green)] !bg-[#E8F5E9]">💬 智能问答</router-link>
                     <router-link to="/news" class="menu-item" @click="menuOpen = false" active-class="!text-[var(--green)] !bg-[#E8F5E9]">📰 农业新闻</router-link>
                     <router-link to="/knowledge" class="menu-item" @click="menuOpen = false" active-class="!text-[var(--green)] !bg-[#E8F5E9]">📚 知识库</router-link>
                     <router-link to="/knowledge-graph" class="menu-item" @click="menuOpen = false" active-class="!text-[var(--green)] !bg-[#E8F5E9]">🌾 知识图谱</router-link>
@@ -182,6 +182,18 @@ function toggleMenu() {
   menuOpen.value = !menuOpen.value
 }
 
+/**
+ * 点击导航「智能问答」：若当前已在问答页，路由不会重新挂载组件，
+ * onMounted 也就不会触发，于是用户会停留在上一次的对话里。
+ * 这里显式开一个全新会话，保证「每次点击智能问答都进入全新对话」。
+ * 历史会话仍在左侧列表中，不会丢失。
+ */
+function onEnterChat() {
+  if (router.currentRoute.value.path === '/chat') {
+    chatStore.newConversation()
+  }
+}
+
 function handleLogout() {
   auth.logout()
   chatStore.clearAll()
@@ -206,7 +218,7 @@ onUnmounted(() => {
 <style scoped>
 /* ===== 顶栏 ===== */
 .header-scrolled {
-  box-shadow: 0 4px 24px rgba(26, 74, 46, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 24px rgba(10, 92, 51, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 .header-scrolled::after {
   content: '';
@@ -221,11 +233,11 @@ onUnmounted(() => {
 /* ===== Logo ===== */
 .logo-box {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(26, 74, 46, 0.2);
+  box-shadow: 0 4px 12px rgba(10, 92, 51, 0.2);
 }
 .logo-group:hover .logo-box {
   transform: scale(1.08);
-  box-shadow: 0 6px 20px rgba(26, 74, 46, 0.3);
+  box-shadow: 0 6px 20px rgba(10, 92, 51, 0.3);
 }
 
 /* ===== 导航链接 ===== */
@@ -284,11 +296,11 @@ onUnmounted(() => {
 }
 .nav-register-btn {
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(45, 122, 74, 0.2);
+  box-shadow: 0 2px 8px rgba(14, 122, 68, 0.2);
 }
 .nav-register-btn:hover {
   background: var(--green-deep) !important;
-  box-shadow: 0 4px 16px rgba(45, 122, 74, 0.35);
+  box-shadow: 0 4px 16px rgba(14, 122, 68, 0.35);
   transform: translateY(-1px);
 }
 

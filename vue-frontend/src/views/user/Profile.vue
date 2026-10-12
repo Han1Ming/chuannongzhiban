@@ -8,7 +8,7 @@
         class="w-full h-full object-cover ken-burns"
         loading="lazy"
       />
-      <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(26,74,46,0.55),rgba(45,122,74,0.3))"></div>
+      <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,92,51,0.55),rgba(14,122,68,0.3))"></div>
       <div class="absolute inset-0 flex items-center justify-center">
         <div class="text-center text-white">
           <h1 class="font-['Noto_Serif_SC'] text-4xl md:text-5xl font-bold mb-2">个人中心</h1>
@@ -27,7 +27,7 @@
           <div class="relative inline-block mb-5">
             <div class="avatar-ring absolute inset-0 rounded-full"></div>
             <div class="w-28 h-28 rounded-[2rem] flex items-center justify-center mx-auto relative z-10"
-              style="background:linear-gradient(135deg,var(--green-mist),var(--green-light));color:var(--green);box-shadow:0 8px 24px rgba(45,122,74,0.15)">
+              style="background:linear-gradient(135deg,var(--green-mist),var(--green-light));color:var(--green);box-shadow:0 8px 24px rgba(14,122,68,0.15)">
               <span class="text-4xl font-bold font-['Noto_Serif_SC']">{{ (auth.userInfo?.username || '?')[0] }}</span>
             </div>
             <div class="absolute -bottom-1 -right-1 w-9 h-9 rounded-full flex items-center justify-center border-[3px] border-white z-20"
@@ -94,7 +94,7 @@
     <!-- ====== 快捷入口 ====== -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
       <div class="quick-entry group bg-white rounded-2xl p-5 border border-[#e8e0d4] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer text-center" @click="$router.push('/chat')">
-        <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:scale-110" style="background:#E8F5E9;color:#2D7A4A">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 transition-transform duration-300 group-hover:scale-110" style="background:#E8F5E9;color:#0E7A44">
           <el-icon :size="24"><ChatDotRound /></el-icon>
         </div>
         <h4 class="font-bold text-sm mb-1" style="color:var(--brown)">智能问答</h4>
@@ -155,7 +155,7 @@ import {
 const auth = useAuthStore(); const router = useRouter()
 const roleLabel = computed(() => ({ USER: '普通农户', ADMIN: '系统管理员', GOV: '政府人员' }[auth.role] || auth.role))
 const tagType = computed(() => ({ USER: 'success', ADMIN: 'danger', GOV: 'warning' }[auth.role] || ''))
-const roleColor = computed(() => ({ USER: '#2D7A4A', ADMIN: '#DC2626', GOV: '#D97706' }[auth.role] || '#999'))
+const roleColor = computed(() => ({ USER: '#0E7A44', ADMIN: '#DC2626', GOV: '#D97706' }[auth.role] || '#999'))
 const roleIcon = computed(() => ({ USER: 'UserFilled', ADMIN: 'Tools', GOV: 'DataBoard' }[auth.role] || 'UserFilled'))
 
 function handleLogout() {

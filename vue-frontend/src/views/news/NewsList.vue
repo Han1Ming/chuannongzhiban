@@ -9,7 +9,7 @@
         style="filter:brightness(0.5) saturate(0.9)"
         loading="lazy"
       />
-      <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(26,74,46,0.5),rgba(26,74,46,0.3))"></div>
+      <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,92,51,0.5),rgba(10,92,51,0.3))"></div>
       <div class="absolute inset-0 flex items-center justify-center">
         <div class="text-center text-white">
           <!-- 装饰线 -->
@@ -193,7 +193,7 @@ onMounted(load)
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 .news-search :deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 3px rgba(45, 122, 74, 0.1), 0 4px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 0 0 3px rgba(14, 122, 68, 0.1), 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 .search-btn {
   background: var(--green) !important;

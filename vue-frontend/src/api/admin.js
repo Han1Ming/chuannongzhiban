@@ -1,8 +1,18 @@
 import req from './request'
 // ===== 用户管理 =====
-export const getAdminUserList = () => req.get('/api/admin/user/list')
-export const getAdminUserListPaginated = (page=1, pageSize=20, keyword='') =>
-  req.get('/api/admin/user/list-paginated', { params: { page, page_size: pageSize, keyword: keyword || undefined } })
+export const getAdminUserList = (role) => req.get('/api/admin/user/list', { params: { role: role || undefined } })
+/**
+ * 分页用户列表。
+ * @param {number} page
+ * @param {number} pageSize
+ * @param {string} [keyword] 手机号/用户名模糊搜索
+ * @param {string} [role] 角色过滤：USER / ADMIN / GOV；留空表示全部角色
+ * 返回项含 role 字段（修复前缺失，导致管理端角色列渲染不出标签）
+ */
+export const getAdminUserListPaginated = (page = 1, pageSize = 20, keyword = '', role = '') =>
+  req.get('/api/admin/user/list-paginated', {
+    params: { page, page_size: pageSize, keyword: keyword || undefined, role: role || undefined }
+  })
 export const updateAdminUser = (id, p) => req.put(`/api/admin/user/${id}`, p)
 export const deleteAdminUser = id => req.delete(`/api/admin/user/${id}`)
 export const getUserChatData = userId => req.get(`/api/admin/user/${userId}/chat-data`)
@@ -33,8 +43,10 @@ export const uploadKnowledgeFile = file => {
   const fd = new FormData(); fd.append('file', file)
   return req.post('/api/admin/knowledge/upload', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
 }
-export const searchKnowledgeAdmin = (query, topK=3) =>
-  req.post('/api/admin/knowledge/search', null, { params: { query, top_k: topK } })
+export const searchKnowledgeAdmin = (query, topK = 3, mode = 'auto') =>
+  req.post('/api/admin/knowledge/search', null, { params: { query, top_k: topK, mode } })
+/** 知识库与检索通道状态：条目数、当前检索通道、嵌入服务是否可用 */
+export const getKnowledgeStats = () => req.get('/api/admin/knowledge/stats')
 
 // ===== 三个数据表（管理员） =====
 export const getFarmRecords = (page=1, pageSize=20, userId) =>

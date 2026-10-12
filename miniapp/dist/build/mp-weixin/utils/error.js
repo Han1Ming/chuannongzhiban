@@ -1,0 +1,1 @@
+"use strict";const o=require("../common/vendor.js");exports.handleError=function(e,n={}){const{fallbackMsg:r="操作失败，请重试",showToast:s=!0}=n,t=(null==e?void 0:e.message)||r,i=t.includes("登录")||t.includes("token")||t.includes("Token");return console.error("[AppError]",t,e),s&&o.index.showToast({title:t,icon:"none",duration:2e3}),{message:t,isAuthError:i}};

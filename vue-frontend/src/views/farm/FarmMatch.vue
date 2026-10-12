@@ -16,8 +16,8 @@
         style="
           background: linear-gradient(
             135deg,
-            rgba(26, 74, 46, 0.55),
-            rgba(45, 122, 74, 0.3)
+            rgba(10, 92, 51, 0.55),
+            rgba(14, 122, 68, 0.3)
           );
         "
       ></div>
@@ -254,7 +254,7 @@ async function match() {
 }
 .match-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(45, 122, 74, 0.3) !important;
+  box-shadow: 0 6px 20px rgba(14, 122, 68, 0.3) !important;
 }
 .match-select :deep(.el-input__wrapper) {
   border-radius: 14px;
@@ -262,7 +262,7 @@ async function match() {
 }
 .match-select :deep(.el-input__wrapper.is-focus) {
   box-shadow:
-    0 0 0 3px rgba(45, 122, 74, 0.1),
+    0 0 0 3px rgba(14, 122, 68, 0.1),
     0 0 0 1px var(--green) !important;
 }
 

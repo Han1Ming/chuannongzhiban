@@ -33,14 +33,20 @@
       <view class="results" v-if="diagnosisResult">
         <view class="result-header">
           <text class="result-title">📋 诊断结果</text>
+          <!-- 整体置信度取多图中最保守的等级，先于明细告知用户结果可靠程度 -->
+          <ConfidenceTag
+            :level="diagnosisResult.overall_confidence_level"
+            :confidence="diagnosisResult.overall_confidence"
+          />
         </view>
         <view class="result-summary" v-if="diagnosisResult.summary">
           <text class="summary-text">{{ diagnosisResult.summary }}</text>
         </view>
         <DiagnoseCard
-          v-for="(r, i) in diagnosisResult.results || []"
+          v-for="(r, i) in diagnosisResult.results"
           :key="i"
           :result="r"
+          @retake="onRetake"
         />
       </view>
 
@@ -53,7 +59,9 @@
 import { ref } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import DiagnoseCard from '@/components/DiagnoseCard.vue'
+import ConfidenceTag from '@/components/ai/ConfidenceTag.vue'
 import { diagnoseImage } from '@/api/multimodal'
+import { normalizeDiagnoseResult } from '@/utils/aiTypes'
 import { handleError } from '@/utils/error'
 
 const tempFiles = ref([])
@@ -83,12 +91,26 @@ async function startDiagnose() {
 
   try {
     const result = await diagnoseImage(tempFiles.value[0])
-    diagnosisResult.value = result
+    // 归一化一次，页面只面对稳定形状（overall_confidence_level 等新增字段可直接读）
+    diagnosisResult.value = normalizeDiagnoseResult(result)
   } catch (err) {
     handleError(err, { fallbackMsg: '诊断失败' })
   } finally {
     diagnosing.value = false
   }
+}
+
+/**
+ * 低置信度引导里的「补充照片」回调。
+ * 现有上传流程一次只上传第一张（后端 diagnose 是单文件接口），
+ * 因此把补充的照片放到首位：既保留原图，又能直接复用 startDiagnose 重跑。
+ */
+function onRetake(path) {
+  if (!path) return
+  const rest = tempFiles.value.filter(p => p !== path)
+  tempFiles.value = [path, ...rest].slice(0, 4)
+  uni.showToast({ title: '已加入补充照片', icon: 'none', duration: 1200 })
+  startDiagnose()
 }
 </script>
 
@@ -215,6 +237,10 @@ async function startDiagnose() {
 }
 .result-header {
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
 }
 .result-title {
   font-size: 16px;

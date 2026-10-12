@@ -12,10 +12,27 @@
 }
 
 :root {
-  --green-deep: #1A4A2E;
-  --green: #2D7A4A;
-  --green-light: #4CAF50;
-  --green-mist: #E8F5E9;
+  /*
+   * ===== 品牌主色阶 =====
+   * 唯一真值：--brand（农业绿 #0E7A44）。--green* 全部由它派生，
+   * 因此「换主色」只需改 --brand 一处，不必再全仓库搜绿色十六进制值。
+   *
+   * 半透明场景不用 color-mix()（兼容性），一律用对应色阶的 RGB 数值：
+   *   --brand      #0E7A44 → rgba(14, 122, 68, a)
+   *   --brand-deep #0A5C33 → rgba(10, 92, 51, a)
+   */
+  --brand: #0E7A44;
+  --brand-deep: #0A5C33;
+  --brand-light: #2E9D63;
+  --brand-mist: #E8F5E9;
+  /* 关键实体高亮底纹：比 --brand-mist 浅一档，避免大片文字被绿底压住可读性 */
+  --brand-tint: #EAF7EF;
+
+  /* 语义别名（历史命名，全站已在用，保持指向不变） */
+  --green-deep: var(--brand-deep);
+  --green: var(--brand);
+  --green-light: var(--brand-light);
+  --green-mist: var(--brand-mist);
   --earth: #C4A882;
   --earth-light: #F5EDE0;
   --gold: #E8B84B;
@@ -66,6 +83,131 @@ h1, h2, h3, h4, h5 {
 .el-overlay { z-index: 2000 !important; }
 .el-input-number .el-input__wrapper { width: 100%; }
 
+/*
+ * ===== AI 回答正文（.markdown-body）样式 =====
+ *
+ * 这些规则**必须放在全局**，不能放进组件的 <style scoped>。
+ * 原因（实测过编译产物，不是推测）：scoped 会把选择器编译成 `.markdown-body p[data-v-xxx]`，
+ * 而 `v-html` 注入的节点上**没有** data-v 属性 —— Vue 的 runtime 对 innerHTML 只做
+ * `el.innerHTML = value`，不会往里注入 scopeId。于是原先写在 ChatView.vue 里的这 65 行
+ * 全部是死代码，回答正文一直在用浏览器默认排版（段落无间距、表格无边框、
+ * <details> 折叠块是原生灰三角），这正是"像后台系统、层级扁平"的直接来源。
+ */
+/*
+ * 注意：这里**不要**给 .markdown-body 本身设 font-size / line-height。
+ * FarmMatch.vue 也用同一个 class 渲染 v-html 结果，并自带 `text-sm leading-[1.9]`；
+ * 两者同为单类选择器，而本文件在 Tailwind 之后加载，一旦在这里设字号就会把它盖掉。
+ * 回答区的字号/行高由 .msg-bubble-ai 负责（15px / 1.6），.markdown-body 只继承即可。
+ */
+.markdown-body {
+  word-break: break-word;
+}
+.markdown-body > *:first-child { margin-top: 0; }
+.markdown-body > *:last-child { margin-bottom: 0; }
+.markdown-body p {
+  margin: 0 0 8px;
+}
+.markdown-body strong {
+  color: var(--green-deep);
+  font-weight: 700;
+}
+.markdown-body ul,
+.markdown-body ol {
+  margin: 6px 0 10px;
+  padding-left: 22px;
+}
+.markdown-body li {
+  margin: 2px 0;
+}
+.markdown-body li::marker {
+  color: var(--green);
+}
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  font-family: 'Noto Serif SC', serif;
+  color: var(--green-deep);
+  line-height: 1.4;
+  margin: 14px 0 8px;
+}
+.markdown-body h1 { font-size: 19px; }
+.markdown-body h2 { font-size: 17px; }
+.markdown-body h3 { font-size: 16px; }
+.markdown-body h4 { font-size: 15px; }
+.markdown-body blockquote {
+  margin: 10px 0;
+  padding: 8px 14px;
+  border-left: 3px solid var(--green-mist);
+  border-radius: 0 8px 8px 0;
+  background: #faf8f4;
+  color: var(--brown-soft);
+}
+.markdown-body hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px solid #f0ece4;
+}
+.markdown-body code {
+  background: #f0ece4;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.markdown-body pre {
+  background: #f8f6f2;
+  padding: 12px 16px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 8px 0;
+}
+.markdown-body pre code {
+  background: transparent;
+  padding: 0;
+}
+.markdown-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 10px 0;
+  font-size: 13px;
+}
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid #e8e0d4;
+  padding: 6px 12px;
+  text-align: left;
+}
+.markdown-body th {
+  background: #f8f6f2;
+  font-weight: 600;
+  color: var(--brown);
+}
+.markdown-body tbody tr:nth-child(even) {
+  background: #fdfbf8;
+}
+
+/* 折叠块（模型输出的 <details> 推理摘要） */
+.markdown-body details {
+  margin: 10px 0;
+  padding: 8px 12px;
+  background: #f8f6f2;
+  border-radius: 10px;
+  border: 1px solid #e8e0d4;
+}
+.markdown-body details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--green);
+  transition: color 0.2s;
+}
+.markdown-body details summary:hover {
+  color: var(--green-deep);
+  text-decoration: underline;
+}
+.markdown-body details[open] summary {
+  margin-bottom: 6px;
+}
+
 /* AI 回答中的知识图谱跳转链接 */
 .markdown-body a {
   color: var(--green);
@@ -75,6 +217,19 @@ h1, h2, h3, h4, h5 {
 }
 .markdown-body a:hover {
   color: var(--green-deep);
+}
+
+/*
+ * 关键实体高亮（utils/highlightEntities.js 注入的 <mark class="entity">）。
+ * 底纹用比 --brand-mist 更浅一档的 --brand-tint：整段里出现十几个实体时，
+ * 用标准浅绿会把正文压成"一片绿"，读不下去。
+ */
+.markdown-body mark.entity {
+  background: var(--brand-tint);
+  color: var(--brand-deep);
+  font-weight: 600;
+  padding: 0 2px;
+  border-radius: 3px;
 }
 
 /* 过渡动画 */
@@ -113,8 +268,8 @@ h1, h2, h3, h4, h5 {
 
 /* 呼吸发光 */
 @keyframes breathe {
-  0%, 100% { box-shadow: 0 0 20px rgba(45, 122, 74, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(45, 122, 74, 0.6); }
+  0%, 100% { box-shadow: 0 0 20px rgba(14, 122, 68, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(14, 122, 68, 0.6); }
 }
 .breathe { animation: breathe 3s ease-in-out infinite; }
 
@@ -131,8 +286,8 @@ h1, h2, h3, h4, h5 {
 
 /* 脉冲光晕 */
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(45, 122, 74, 0.4), 0 0 20px rgba(45, 122, 74, 0.2); }
-  50% { box-shadow: 0 0 16px rgba(45, 122, 74, 0.6), 0 0 36px rgba(45, 122, 74, 0.4); }
+  0%, 100% { box-shadow: 0 0 8px rgba(14, 122, 68, 0.4), 0 0 20px rgba(14, 122, 68, 0.2); }
+  50% { box-shadow: 0 0 16px rgba(14, 122, 68, 0.6), 0 0 36px rgba(14, 122, 68, 0.4); }
 }
 
 /* 图片悬浮缩放通用 */

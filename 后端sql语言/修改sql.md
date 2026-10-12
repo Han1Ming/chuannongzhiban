@@ -138,3 +138,45 @@ CREATE TABLE IF NOT EXISTS `agricultural_news` (
 - 智能问答流式/同步/WebSocket 增加离线兜底：模型额度或网络异常时返回知识图谱/RAG 结果和明确提示
 - 新闻 `latest/list` 接口改为公开访问
 - 管理端知识库分页接口修复（`KnowledgeItem` 无 `updated_at`，改为返回 `created_at`）
+
+---
+
+## 📅 AI 能力升级（五阶段改造）— 数据库变更
+
+> ⚠ **重要：自本次改造起，数据库结构变更统一走迁移执行器，不再手工改 sql 文件。**
+
+### 变更入口
+
+```bash
+cd backend
+python -m migrations.run_migration status        # 查看版本状态
+python -m migrations.run_migration up            # 应用迁移（幂等，可重复执行）
+python -m migrations.run_migration up --dry-run  # 只看执行计划
+python -m migrations.run_migration down 0002     # 回滚指定版本
+python -m migrations.run_migration backup        # 导出全库结构快照
+```
+
+脚本与说明：`backend/migrations/`（详见该目录下的 `README.md`）。
+每次 `up`/`down` 前会自动把涉及的表结构导出到 `backend/migrations/backup/<时间戳>_<动作>_<版本>/`。
+
+### 新增版本
+
+| 版本 | 表 | 变更 |
+|:---:|---|---|
+| `0001` | `chat_messages` | 新增 11 列：`prescription_json`、`reasoning_chain`、`sources`、`graph_paths`、`confidence_level`、`confidence`、`need_more_info`、`risk_warnings`、`agent_trace`、`source_meta`、`api_version`；新增索引 `idx_chat_messages_confidence_level` |
+| `0002` | `agent_runs` | 新建多智能体链路审计表（intent / route / steps / elapsed_ms / degraded 等） |
+| `0003` | `farm_records` | 新增 6 列：`prescription_json`、`reasoning_chain`、`sources`、`graph_paths`、`confidence_level`、`source_meta` |
+
+### 兼容与回滚保证
+
+- 所有新增列**可空或有默认值**，旧数据（`api_version` 默认 1）无需回填即可正常读取；
+- 迁移执行器只做 `ADD COLUMN` / `CREATE TABLE`，**不做 DROP/TRUNCATE 既有业务表**；
+- MySQL 9.x 不支持 `ADD COLUMN IF NOT EXISTS`，执行器改由 `information_schema` 预检实现幂等；
+- 单版本内语句在同一事务中执行，任一句失败即整体回滚且不写入版本记录；
+- 每个版本都配 `_down.sql`，结构与代码应成对回滚。
+
+### 与旧 sql 文件的关系
+
+`console.sql` / `console_1.sql` / `console_2.sql` **保持不变，继续作为全新安装的基线建库脚本**；
+迁移执行器负责在既有库上做增量演进。全新部署时先跑基线脚本、再跑 `migrations up` 即可。
+

@@ -1,7 +1,7 @@
 <template>
   <div class="flex" style="min-height:100vh;background:#F5F0EB">
     <!-- ====== 侧边栏 ====== -->
-    <aside class="admin-sidebar" style="width:240px;background:linear-gradient(180deg,#1A4A2E 0%,#0D2B18 100%);flex-shrink:0">
+    <aside class="admin-sidebar" style="width:240px;background:linear-gradient(180deg,#0A5C33 0%,#0D2B18 100%);flex-shrink:0">
       <!-- Logo -->
       <div class="p-5 border-b border-white/8">
         <router-link to="/admin" class="flex items-center gap-3 no-underline">

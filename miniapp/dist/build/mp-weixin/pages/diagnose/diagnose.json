@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "病虫害诊断",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "nav-bar": "../../components/NavBar",
+    "diagnose-card": "../../components/DiagnoseCard",
+    "confidence-tag": "../../components/ai/ConfidenceTag"
+  }
+}

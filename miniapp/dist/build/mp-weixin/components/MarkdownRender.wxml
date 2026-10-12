@@ -1,0 +1,1 @@
+<view class="markdown-render data-v-aaabc644"><rich-text wx:if="{{a}}" class="data-v-aaabc644" nodes="{{b}}"/><text wx:else class="empty-text data-v-aaabc644">{{c}}</text></view>
